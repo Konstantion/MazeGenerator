@@ -1,4 +1,5 @@
 ﻿using MazeGenerator.src.algorithms;
+using MazeGenerator.src.maze.implementation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,18 +9,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static MazeGenerator.src.maze.DrawingTools;
 
-namespace MazeGenerator
-{
-
+namespace MazeGenerator{
+   
     public partial class Form1 : Form
     {
-       
+        Graphics g;
+        Bitmap bitmap;        
+        int counter;
+
+        private Maze maze;
+
+        Random random;
         public Form1()
         {            
             InitializeComponent();
             SetAlgorithmComboBoxData();
-           
+
+            bitmap = new Bitmap(pictureBoxMaze.Width, pictureBoxMaze.Height);
+            g = Graphics.FromImage(bitmap);            
+
+            counter = 0;
+            random = new Random();
+
+            initMaze();
         }
         private void SetAlgorithmComboBoxData()
         {
@@ -30,11 +44,74 @@ namespace MazeGenerator
            };
             this.comboBoxAlgorithm.DisplayMember = "Name";
             this.comboBoxAlgorithm.ValueMember = "Id";
+        }        
+
+        private void numericUpDownMazeSize_ValueChanged(object sender, EventArgs e)
+        {
+            pictureBoxMaze.Image = bitmap;
+
+            int n = (int) numericUpDownMazeSize.Value;
+            maze = new Maze(n, pictureBoxMaze.Width, g);
+
+            maze.Draw();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void comboBoxAlgorithm_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Console.WriteLine("tick");
+           
+            int n = (int)numericUpDownMazeSize.Value;
+            Console.WriteLine(n);
+            if (counter < n * 8)
+            {
+                pictureBoxMaze.Image = bitmap;
+                int index1 = random.Next(0, n);
+                int index2 = random.Next(0, n);
+                int index3 = random.Next(0, 4);
+                maze.cells[index1, index2].FillWhite();
+                counter++;
+                Console.WriteLine($"Fill wall [{index1},{index2}]");
+            }
+        }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            
+            timer1.Start();
+            Console.WriteLine($"Timer start with interval {timer1.Interval}");
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+        }
+
+        private void numericUpDownFrames_ValueChanged(object sender, EventArgs e)
+        {
+            int fps = (int)numericUpDownFrames.Value;
+            int interval = 1000 / fps;
+            timer1.Interval = interval;
+        }
+
+        private void initMaze()
+        {
+            pictureBoxMaze.Image = bitmap;
+
+            int n = (int)numericUpDownMazeSize.Value;
+            maze = new Maze(n, pictureBoxMaze.Width, g);
+
+            maze.Draw();
+        }
+
+        private void buttonReset_Click(object sender, EventArgs e)
+        {
+            counter = 0;
+            initMaze();
         }
     }
 }

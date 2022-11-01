@@ -76,6 +76,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\algorithms\AlgorithmsEnum.cs" />
     <Compile Include="src\algorithms\AlgorithmComboItem.cs" />
+    <Compile Include="src\maze\drawingTools\DrawingTools.cs" />
+    <Compile Include="src\maze\implementation\Cell.cs" />
+    <Compile Include="src\maze\implementation\Wall.cs" />
+    <Compile Include="src\maze\implementation\Maze.cs" />
+    <Compile Include="src\maze\interfaces\IMazeElement.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
