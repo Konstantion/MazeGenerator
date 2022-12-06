@@ -48,12 +48,7 @@ namespace MazeGenerator{
 
         private void numericUpDownMazeSize_ValueChanged(object sender, EventArgs e)
         {
-            pictureBoxMaze.Image = bitmap;
-
-            int n = (int) numericUpDownMazeSize.Value;
-            maze = new Maze(n, pictureBoxMaze.Width, g);
-
-            maze.Draw();
+            initMaze();
         }
 
         private void comboBoxAlgorithm_SelectedIndexChanged(object sender, EventArgs e)
@@ -63,20 +58,7 @@ namespace MazeGenerator{
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Console.WriteLine("tick");
-           
-            int n = (int)numericUpDownMazeSize.Value;
-            Console.WriteLine(n);
-            if (counter < n * 8)
-            {
-                pictureBoxMaze.Image = bitmap;
-                int index1 = random.Next(0, n);
-                int index2 = random.Next(0, n);
-                int index3 = random.Next(0, 4);
-                maze.cells[index1, index2].FillWhite();
-                counter++;
-                Console.WriteLine($"Fill wall [{index1},{index2}]");
-            }
+            
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -103,9 +85,9 @@ namespace MazeGenerator{
             pictureBoxMaze.Image = bitmap;
 
             int n = (int)numericUpDownMazeSize.Value;
-            maze = new Maze(n, pictureBoxMaze.Width, g);
+            maze = new Maze(n, pictureBoxMaze.Width, pictureBoxMaze.Height, g);
 
-            maze.Draw();
+            maze.Drow();
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
