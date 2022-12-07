@@ -96,5 +96,11 @@ namespace MazeGenerator{
             counter = 0;
             initMaze();
         }
+
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            pictureBoxMaze.Image = bitmap;
+            maze.Animate();
+        }
     }
 }

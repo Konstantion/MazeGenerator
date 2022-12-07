@@ -51,6 +51,9 @@ namespace MazeGenerator
             this.buttonReset = new System.Windows.Forms.Button();
             this.pictureBoxMaze = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.ButtonNextStep = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMazeSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrames)).BeginInit();
@@ -71,6 +74,8 @@ namespace MazeGenerator
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.button2, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.button1, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.labelStart, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.labelFrames, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.labelMazeWidth, 0, 0);
@@ -83,13 +88,15 @@ namespace MazeGenerator
             this.tableLayoutPanel1.Controls.Add(this.buttonStart, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonStop, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonReset, 5, 1);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBoxMaze, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBoxMaze, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.ButtonNextStep, 5, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1, -3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowCount = 9;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
@@ -207,7 +214,7 @@ namespace MazeGenerator
             this.numericUpDownFrames.Size = new System.Drawing.Size(194, 20);
             this.numericUpDownFrames.TabIndex = 6;
             this.numericUpDownFrames.Value = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
@@ -300,6 +307,46 @@ namespace MazeGenerator
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Location = new System.Drawing.Point(203, 1003);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(194, 142);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Reset";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button2.Location = new System.Drawing.Point(3, 1003);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(194, 142);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Reset";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // ButtonNextStep
+            // 
+            this.ButtonNextStep.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonNextStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ButtonNextStep.Location = new System.Drawing.Point(1003, 103);
+            this.ButtonNextStep.Name = "ButtonNextStep";
+            this.ButtonNextStep.Size = new System.Drawing.Size(194, 44);
+            this.ButtonNextStep.TabIndex = 8;
+            this.ButtonNextStep.Text = "Next";
+            this.ButtonNextStep.UseVisualStyleBackColor = true;
+            this.ButtonNextStep.Click += new System.EventHandler(this.buttonNext_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,6 +381,9 @@ namespace MazeGenerator
         private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ButtonNextStep;
     }
 }
 
