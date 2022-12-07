@@ -11,6 +11,7 @@ namespace MazeGenerator.src.maze
     static class DrawingTools
     {
         public static readonly int CELL_BORDER = 2;
+        public static readonly int CELL_INDENT = CELL_BORDER / 2;
         public static readonly Pen WHITE_PEN = new Pen(Color.White, CELL_BORDER);
         public static readonly Pen BLACK_PEN = new Pen(Color.Black, CELL_BORDER);
         public static readonly SolidBrush BLACK_BRUSH = new SolidBrush(Color.Black);

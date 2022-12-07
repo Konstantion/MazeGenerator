@@ -32,9 +32,14 @@ namespace MazeGenerator.src.maze
             backGround = new RectangleF(x+ CELL_BORDER/2f, y+CELL_BORDER/2f, size-CELL_BORDER, size- CELL_BORDER);
         }
 
+        public void DrawCell(SolidBrush brush)
+        {
+            g.FillRectangle(brush, backGround);
+        }
+
         public void DrawCell()
         {
-            g.FillRectangle(GRAY_BRUSH, backGround);
+            DrawCell(GRAY_BRUSH);
         }
 
         public void DrawNorthWall()
@@ -44,12 +49,12 @@ namespace MazeGenerator.src.maze
 
         public void DrawSouthWall()
         {
-
+            g.DrawLine(BLACK_PEN, x, y + size, x + size, y + size);
         }
 
         public void DrawEastWall()
         {
-            
+            g.DrawLine(BLACK_PEN, x + size, y, x + size, y + size);
         }
 
         public void DrawWesthWall()
@@ -57,6 +62,41 @@ namespace MazeGenerator.src.maze
             g.DrawLine(BLACK_PEN, x, y, x, y + size);
         }
 
+        public void EraseNorthWall(Pen pen)
+        {
+            g.DrawLine(pen, x + CELL_INDENT, y, x + size - CELL_INDENT, y);
+        }
+        public void EraseNorthWall()
+        {
+            EraseNorthWall(WHITE_PEN);
+        }
+
+        public void EraseSouthWall(Pen pen)
+        {
+            g.DrawLine(pen, x + CELL_INDENT, y + size, x + size - CELL_INDENT, y + size);
+        }
+        public void EraseSouthWall()
+        {
+            EraseSouthWall(WHITE_PEN);
+        }
+
+        public void EraseEastWall(Pen pen)
+        {
+            g.DrawLine(pen, x + size, y + CELL_INDENT, x + size, y + size - CELL_INDENT);
+        }
+        public void EraseEastWall()
+        {
+            EraseEastWall(WHITE_PEN);
+        }
+
+        public void EraseWesthWall(Pen pen)
+        {
+            g.DrawLine(pen, x, y + CELL_INDENT, x, y + size - CELL_INDENT);
+        }
+        public void EraseWesthWall()
+        {
+            EraseWesthWall(WHITE_PEN);
+        }
 
     }
 }

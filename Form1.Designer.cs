@@ -290,7 +290,7 @@ namespace MazeGenerator
             this.pictureBoxMaze.Location = new System.Drawing.Point(203, 203);
             this.pictureBoxMaze.Name = "pictureBoxMaze";
             this.tableLayoutPanel1.SetRowSpan(this.pictureBoxMaze, 4);
-            this.pictureBoxMaze.Size = new System.Drawing.Size(794, 800);
+            this.pictureBoxMaze.Size = new System.Drawing.Size(800, 800);
             this.pictureBoxMaze.TabIndex = 0;
             this.pictureBoxMaze.TabStop = false;
             // 

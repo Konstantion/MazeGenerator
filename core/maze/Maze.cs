@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MazeGenerator.src.maze.DrawingTools;
 
 namespace MazeGenerator.src.maze.implementation
 {
@@ -24,6 +25,7 @@ namespace MazeGenerator.src.maze.implementation
         
 
         protected Graphics g;
+        protected bool isAnimating = true;
     
 
         public Maze(int n, int w, int h, Graphics g)
@@ -81,8 +83,13 @@ namespace MazeGenerator.src.maze.implementation
                     grid[j][i].DrawCell();
                     grid[j][i].DrawNorthWall();
                     grid[j][i].DrawWesthWall();
+                    grid[j][i].EraseWesthWall();
+                    grid[j][i].EraseNorthWall();
+
                 }
             }
+
+            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
         }
         public static int DX(int direction)
         {
@@ -129,6 +136,11 @@ namespace MazeGenerator.src.maze.implementation
             }
             
             return -1;
+        }
+
+        public void setAnimate(bool isAnimating)
+        {
+            this.isAnimating = isAnimating;
         }
     }
 }

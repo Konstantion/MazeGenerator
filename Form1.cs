@@ -1,4 +1,5 @@
-﻿using MazeGenerator.src.algorithms;
+﻿using MazeGenerator.core.maze.implementation.Kruskal;
+using MazeGenerator.src.algorithms;
 using MazeGenerator.src.maze.implementation;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace MazeGenerator{
             pictureBoxMaze.Image = bitmap;
 
             int n = (int)numericUpDownMazeSize.Value;
-            maze = new Maze(n, pictureBoxMaze.Width, pictureBoxMaze.Height, g);
+            maze = new Kruskal(n, pictureBoxMaze.Width, pictureBoxMaze.Height, g);
 
             maze.Drow();
         }
