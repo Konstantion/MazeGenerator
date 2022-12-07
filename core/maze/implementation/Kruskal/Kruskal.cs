@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static MazeGenerator.src.maze.DrawingTools;
 
@@ -11,6 +12,8 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
 {
     class Kruskal : Maze
     {
+        public const int SELECTED = 16;
+
         private List<List<Tree>> sets;
         private Stack<Edge> edges;
 
@@ -47,7 +50,7 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                 }
             }
 
-            Shuffle(edges);
+            Shuffle(edges);            
         }
 
         private void carvePassages()
@@ -70,23 +73,21 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                 {
                     set1.connect(set2);
 
+
                     grid[y][x].val |= direction;
+                    grid[y][x].val |= SELECTED;
                     grid[dy][dx].val |= Maze.OPPOSITE(direction);
-                }
+                    grid[dy][dx].val |= SELECTED;                    
+                }                
             }            
         }
 
         public override void Animate()
         {
-            if (isAnimating)
-            {
-                Console.WriteLine("I am aminating))");
-                Console.WriteLine(edges.Count);
-                carvePassages();
-                Drow();
-            }
+            carvePassages();
+            Draw();
         }
-        public override void Drow()
+        public override void Draw()
         {
             g.Clear(Color.White);
             g.DrawLine(BLACK_PEN, 0, 0, 0, h);
@@ -102,9 +103,15 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                     {
                         grid[j][i].DrawCell();
                     }
+                    else if((grid[j][i].val & SELECTED) != 0)
+                    {
+                        grid[j][i].DrawCell(YELLOW_BRUSH);
+                        grid[j][i].val -= SELECTED;
+                        
+                    }
                     else
                     {
-                        grid[j][i].DrawCell(WHITE_BRUSH);                        
+                        grid[j][i].DrawCell(WHITE_BRUSH);
                     }
 
                     if ((grid[j][i].val & S) != 0)

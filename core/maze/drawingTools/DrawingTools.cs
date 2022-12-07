@@ -18,6 +18,7 @@ namespace MazeGenerator.src.maze
         public static readonly SolidBrush WHITE_BRUSH = new SolidBrush(Color.White);
         public static readonly SolidBrush GRAY_BRUSH = new SolidBrush(Color.Gray);
         public static readonly SolidBrush RED_BRUSH = new SolidBrush(Color.Red);
+        public static readonly SolidBrush YELLOW_BRUSH = new SolidBrush(Color.Yellow);
 
 
     }

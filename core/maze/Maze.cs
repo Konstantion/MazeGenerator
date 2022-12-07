@@ -15,6 +15,7 @@ namespace MazeGenerator.src.maze.implementation
         public const int S = 2;
         public const int E = 4;
         public const int W = 8;
+        
        
         protected Random random = null;
         protected int seed;
@@ -72,7 +73,7 @@ namespace MazeGenerator.src.maze.implementation
             }
         }
 
-        public virtual void Drow()
+        public virtual void Draw()
         {
             g.Clear(Color.White);
             g.DrawLine(BLACK_PEN, 0, 0, 0, h);
@@ -135,7 +136,7 @@ namespace MazeGenerator.src.maze.implementation
 
         public virtual void Animate()
         {
-            Drow();
+            Draw();
         }
         public static int DX(int direction)
         {

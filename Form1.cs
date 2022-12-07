@@ -59,12 +59,12 @@ namespace MazeGenerator{
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            pictureBoxMaze.Image = bitmap;
             maze.Animate();            
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            
             timer1.Start();
             Console.WriteLine($"Timer start with interval {timer1.Interval}");
         }
@@ -88,7 +88,7 @@ namespace MazeGenerator{
             int n = (int)numericUpDownMazeSize.Value;
             maze = new Kruskal(n, pictureBoxMaze.Width, pictureBoxMaze.Height, g);
 
-            maze.Drow();
+            maze.Draw();
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
