@@ -57,9 +57,13 @@ namespace MazeGenerator.src.maze
             g.DrawLine(BLACK_PEN, x + size, y, x + size, y + size);
         }
 
-        public void DrawWesthWall()
+        public void DrawWestWall(Pen pen)
         {
-            g.DrawLine(BLACK_PEN, x, y, x, y + size);
+            g.DrawLine(pen, x, y, x, y + size);
+        }
+        public void DrawWestWall()
+        {
+            DrawWestWall(BLACK_PEN);
         }
 
         public void EraseNorthWall(Pen pen)
@@ -89,13 +93,13 @@ namespace MazeGenerator.src.maze
             EraseEastWall(WHITE_PEN);
         }
 
-        public void EraseWesthWall(Pen pen)
+        public void EraseWestWall(Pen pen)
         {
             g.DrawLine(pen, x, y + CELL_INDENT, x, y + size - CELL_INDENT);
         }
-        public void EraseWesthWall()
+        public void EraseWestWall()
         {
-            EraseWesthWall(WHITE_PEN);
+            EraseWestWall(WHITE_PEN);
         }
 
     }

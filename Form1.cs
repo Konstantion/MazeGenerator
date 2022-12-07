@@ -59,7 +59,7 @@ namespace MazeGenerator{
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
+            maze.Animate();            
         }
 
         private void buttonStart_Click(object sender, EventArgs e)

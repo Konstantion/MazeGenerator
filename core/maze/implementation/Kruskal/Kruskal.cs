@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MazeGenerator.src.maze.DrawingTools;
 
 namespace MazeGenerator.core.maze.implementation.Kruskal
 {
@@ -47,13 +48,11 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             }
 
             Shuffle(edges);
-
-            carvePassages();
         }
 
         private void carvePassages()
         {
-            while(edges.Count > 0)
+            if(edges.Count > 0)
             {
                 Edge temp = edges.Pop();
 
@@ -74,7 +73,78 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                     grid[y][x].val |= direction;
                     grid[dy][dx].val |= Maze.OPPOSITE(direction);
                 }
+            }            
+        }
+
+        public override void Animate()
+        {
+            if (isAnimating)
+            {
+                Console.WriteLine("I am aminating))");
+                Console.WriteLine(edges.Count);
+                carvePassages();
+                Drow();
             }
+        }
+        public override void Drow()
+        {
+            g.Clear(Color.White);
+            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
+            g.DrawLine(BLACK_PEN, 0, 0, w, 0);
+            g.DrawLine(BLACK_PEN, w, 0, w, h);
+            g.DrawLine(BLACK_PEN, 0, h, w, h);
+
+            for (int j = 0; j < n; j++)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    if (grid[j][i].val == 0)
+                    {
+                        grid[j][i].DrawCell();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawCell(WHITE_BRUSH);                        
+                    }
+
+                    if ((grid[j][i].val & S) != 0)
+                    {
+                        grid[j][i].EraseSouthWall();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawSouthWall();
+                    }
+
+                    if ((grid[j][i].val & W) != 0)
+                    {
+                        grid[j][i].EraseWestWall();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawWestWall();
+                    }
+
+                    if ((grid[j][i].val & N) != 0)
+                    {
+                        grid[j][i].EraseNorthWall();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawNorthWall();
+                    }
+
+                    if ((grid[j][i].val & E) != 0)
+                    {
+                        grid[j][i].EraseEastWall();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawEastWall();
+                    }
+                }
+            }
+            Console.WriteLine("i paint maze child");
         }
 
         public void Shuffle(Stack<Edge> stack)

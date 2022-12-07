@@ -86,7 +86,7 @@ namespace MazeGenerator
             this.tableLayoutPanel1.Controls.Add(this.pictureBoxMaze, 1, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1, -3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
@@ -94,7 +94,8 @@ namespace MazeGenerator
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1203, 1056);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1203, 1148);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // labelStart
@@ -290,7 +291,7 @@ namespace MazeGenerator
             this.pictureBoxMaze.Location = new System.Drawing.Point(203, 203);
             this.pictureBoxMaze.Name = "pictureBoxMaze";
             this.tableLayoutPanel1.SetRowSpan(this.pictureBoxMaze, 4);
-            this.pictureBoxMaze.Size = new System.Drawing.Size(800, 800);
+            this.pictureBoxMaze.Size = new System.Drawing.Size(794, 794);
             this.pictureBoxMaze.TabIndex = 0;
             this.pictureBoxMaze.TabStop = false;
             // 
@@ -303,7 +304,7 @@ namespace MazeGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1206, 969);
+            this.ClientSize = new System.Drawing.Size(1206, 1061);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Form1";
             this.Text = "Form1";

@@ -55,13 +55,13 @@ namespace MazeGenerator.src.maze.implementation
             this.w = w;
             this.h = h;
 
-            grid = new Cell[h][];
+            grid = new Cell[n][];
 
             float cellSize = (float)(w * 1.0) / n;
 
             for (int j = 0; j < n; j++)
             {
-                grid[j] = new Cell[w];
+                grid[j] = new Cell[n];
                 float y = j * cellSize;
 
                 for (int i = 0; i< n; i++)
@@ -72,24 +72,70 @@ namespace MazeGenerator.src.maze.implementation
             }
         }
 
-        public void Drow()
+        public virtual void Drow()
         {
             g.Clear(Color.White);
+            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
+            g.DrawLine(BLACK_PEN, 0, 0, w, 0);
+            g.DrawLine(BLACK_PEN, w, 0, w, h);
+            g.DrawLine(BLACK_PEN, 0, h, w, h);
 
-            for(int j = 0; j< n; j++)
+            for (int j = 0; j< n; j++)
             {
                 for(int i = 0; i < n; i++)
                 {
-                    grid[j][i].DrawCell();
-                    grid[j][i].DrawNorthWall();
-                    grid[j][i].DrawWesthWall();
-                    grid[j][i].EraseWesthWall();
-                    grid[j][i].EraseNorthWall();
+                    if(grid[j][i].val == 0)
+                    {
+                        grid[j][i].DrawCell();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawCell(WHITE_BRUSH);
+                    }
 
+                    if((grid[j][i].val & S) !=0)
+                    {
+                        grid[j][i].EraseSouthWall();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawSouthWall();
+                    }
+
+                    if ((grid[j][i].val & W) != 0)
+                    {
+                        grid[j][i].EraseWestWall();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawWestWall();
+                    }
+
+                    if ((grid[j][i].val & N) != 0)
+                    {
+                        grid[j][i].EraseNorthWall();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawNorthWall();
+                    }
+
+                    if ((grid[j][i].val & E) != 0)
+                    {
+                        grid[j][i].EraseEastWall();
+                    }
+                    else
+                    {
+                        grid[j][i].DrawEastWall();
+                    }
                 }
             }
+            Console.WriteLine("i paint maze base");
+        }
 
-            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
+        public virtual void Animate()
+        {
+            Drow();
         }
         public static int DX(int direction)
         {
