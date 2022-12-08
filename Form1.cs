@@ -12,9 +12,9 @@ namespace MazeGenerator
     public partial class Form1 : Form
     {
         Graphics g;
-        Bitmap bitmap;        
-        
+        Bitmap bitmap;
 
+        private bool IsOnBFSMode;
         private Maze maze;        
 
         Random random;
@@ -24,9 +24,10 @@ namespace MazeGenerator
             SetAlgorithmComboBoxData();
 
             bitmap = new Bitmap(pictureBoxMaze.Width, pictureBoxMaze.Height);
-            g = Graphics.FromImage(bitmap);           
+            g = Graphics.FromImage(bitmap);
 
-            
+            IsOnBFSMode = false;
+
             random = new Random();
 
             initMaze();
@@ -87,7 +88,8 @@ namespace MazeGenerator
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
-        {           
+        {
+            IsOnBFSMode = false;
             initMaze();
         }
 
@@ -122,8 +124,9 @@ namespace MazeGenerator
 
         private void buttonBFS_Click(object sender, EventArgs e)
         {
-            if (maze.isFinished)
+            if (maze.isFinished && !IsOnBFSMode)
             {
+                IsOnBFSMode = true;
                 pictureBoxMaze.Image = bitmap;
                 maze = new BFS(maze);
                 maze.Draw();                

@@ -21,9 +21,11 @@ namespace MazeGenerator.core.maze.implementation.BFS
         private BFSPoint end;
 
         private bool isStart = true;
-        private bool isCellFounded = false;
+        public bool isCellFounded = false;
+        private bool isPathBuilt = false;
 
         private Queue<Cell> queue;
+        private BFSTree pathTree;
 
         private BFS(int n, int w, int h, Graphics g) : base(n, w, h, g)
         {
@@ -43,18 +45,55 @@ namespace MazeGenerator.core.maze.implementation.BFS
         }
 
         private void Initialize()
-        {
-            queue = new Queue<Cell>();
+        {            
             start = new BFSPoint(0, 0);
             end = new BFSPoint(n - 1, n - 1);
+
             grid[start.y][start.x].val |= START;
             grid[end.y][end.x].val |= END;
+
+            queue = new Queue<Cell>();
+            pathTree = new BFSTree(grid[start.y][start.x]);
+
+            queue.Enqueue(grid[start.y][start.x]);
+        }
+
+        private void DoStepInDepth()
+        {
+            if(queue.Count > 0 && !isCellFounded)
+            {
+                Cell current = queue.Dequeue();
+
+                current.val -= ENQUEUED;
+                current.val |= DEQUEUED;
+
+                Console.WriteLine($"Current {current}");
+
+                if(current.Equals(grid[end.y][end.x]))
+                {
+                    isCellFounded = true;
+                    return;
+                }
+
+                List<Cell> neighborCells = ExtractNeighborCells(current);
+
+                Console.WriteLine("Enqueue elements:");
+
+                foreach (Cell cell in neighborCells)
+                {
+                    Console.WriteLine(cell);
+                    queue.Enqueue(cell);
+                    cell.val |= ENQUEUED;
+                }
+            }
         }
 
         public override void Animate()
         {
-            
+            DoStepInDepth();
+            BFSDraw();
         }
+
         public void SetPoint(Point point)
         {
             if(isStart)
@@ -66,6 +105,9 @@ namespace MazeGenerator.core.maze.implementation.BFS
                 grid[start.y][start.x].val |= START;
 
                 isStart = false;
+
+                queue = new Queue<Cell>();
+                queue.Enqueue(grid[start.y][start.x]);                
             }
             else
             {
@@ -114,32 +156,87 @@ namespace MazeGenerator.core.maze.implementation.BFS
             Console.WriteLine("i paint bfs base");
                         
         }
+
+        private void BFSDraw()
+        {
+            g.Clear(Color.White);
+            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
+            g.DrawLine(BLACK_PEN, 0, 0, w, 0);
+            g.DrawLine(BLACK_PEN, w, 0, w, h);
+            g.DrawLine(BLACK_PEN, 0, h, w, h);
+
+            for (int j = 0; j < n; j++)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    BFSDrawCell(i, j);
+
+                    BFSCheckWall(i, j, N);
+
+                    BFSCheckWall(i, j, E);
+
+                    BFSCheckWall(i, j, S);
+
+                    BFSCheckWall(i, j, W);
+                }
+            }
+            Console.WriteLine("i paint bfs base");
+
+        }
+
         private void BFSDrawCell(int i, int j)
         {
             if (grid[j][i].val == 0)
             {
-                grid[j][i].DrawCell();
+                grid[j][i].DrawFullCell(GREEN_BRUSH);
             }
             else if ((grid[j][i].val & START) != 0)
             {
-                grid[j][i].DrawCell(GREEN_BRUSH);
+                grid[j][i].DrawFullCell(GREEN_BRUSH);
             }
             else if ((grid[j][i].val & END) != 0)
             {
-                grid[j][i].DrawCell(AQUAMARINE_BRUSH);
+                grid[j][i].DrawFullCell(AQUAMARINE_BRUSH);
             }
             else if ((grid[j][i].val & DEQUEUED) != 0)
             {
-                grid[j][i].DrawCell(DARK_BLUE_BRUSH);
+                grid[j][i].DrawFullCell(LIGHT_BLUE_BRUSH);
             }
             else if ((grid[j][i].val & ENQUEUED) != 0)
             {
-                grid[j][i].DrawCell(BLUE_BRUSH);
+                grid[j][i].DrawFullCell(BLUE_BRUSH);
             }
             else
             {
-                grid[j][i].DrawCell(WHITE_BRUSH);
+                grid[j][i].DrawFullCell(WHITE_BRUSH);
             }
+        }
+
+        protected void BFSCheckWall(int i, int j, int DIRECTION)
+        {
+            if ((grid[j][i].val & DIRECTION) == 0)
+            {
+                grid[j][i].DrawWall(DIRECTION, BLACK_PEN);
+            }          
+        }
+
+        private List<Cell> ExtractNeighborCells(Cell cell)
+        {
+            List<Cell> cells = new List<Cell>();
+
+            if (((cell.val & E) != 0) && (grid[cell.Y][cell.X + 1].val & DEQUEUED) == 0) 
+                cells.Add(grid[cell.Y][cell.X+1]);
+            
+            if ((cell.val & W) != 0 && (grid[cell.Y][cell.X - 1].val & DEQUEUED) == 0) 
+                cells.Add(grid[cell.Y][cell.X-1]);
+            
+            if ((cell.val & N) != 0 && (grid[cell.Y - 1][cell.X].val & DEQUEUED) == 0) 
+                cells.Add(grid[cell.Y -1][cell.X]);
+            
+            if ((cell.val & S) != 0 && (grid[cell.Y + 1][cell.X].val & DEQUEUED) == 0) 
+                cells.Add(grid[cell.Y + 1][cell.X]);
+
+            return cells;
         }
     }
 

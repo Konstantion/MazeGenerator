@@ -15,6 +15,7 @@ namespace MazeGenerator.core.maze
         public static readonly SolidBrush RED_BRUSH = new SolidBrush(Color.Red);
         public static readonly SolidBrush YELLOW_BRUSH = new SolidBrush(Color.Yellow);
         public static readonly SolidBrush BLUE_BRUSH = new SolidBrush(Color.Blue);
+        public static readonly SolidBrush LIGHT_BLUE_BRUSH = new SolidBrush(Color.LightBlue);
         public static readonly SolidBrush DARK_BLUE_BRUSH = new SolidBrush(Color.DarkBlue);
         public static readonly SolidBrush GREEN_BRUSH = new SolidBrush(Color.Green);
         public static readonly SolidBrush AQUAMARINE_BRUSH = new SolidBrush(Color.Aquamarine);

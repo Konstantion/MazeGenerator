@@ -78,7 +78,7 @@ namespace MazeGenerator.core.maze.implementation
                 for (int i = 0; i< n; i++)
                 {
                     float x = i * cellSize;
-                    grid[j][i] = new Cell(cellSize, x, y, g, 0);
+                    grid[j][i] = new Cell(cellSize, x, y, g, 0, i , j);
                 }
             }
         }
