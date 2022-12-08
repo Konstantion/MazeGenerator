@@ -1,4 +1,4 @@
-﻿using MazeGenerator.src.maze.implementation;
+﻿using MazeGenerator.core.maze.implementation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static MazeGenerator.src.maze.DrawingTools;
+using static MazeGenerator.core.maze.DrawingTools;
 
 namespace MazeGenerator.core.maze.implementation.Kruskal
 {
@@ -53,7 +53,7 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             Shuffle(edges);            
         }
 
-        private void carvePassages()
+        private void CarvePassage()
         {
             if(edges.Count > 0)
             {
@@ -74,17 +74,49 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                     set1.connect(set2);
 
 
-                    grid[y][x].val |= direction;
-                    grid[y][x].val |= SELECTED;
-                    grid[dy][dx].val |= Maze.OPPOSITE(direction);
-                    grid[dy][dx].val |= SELECTED;                    
-                }                
-            }            
+                    grid[y][x].val |= direction;                    
+                    grid[dy][dx].val |= Maze.OPPOSITE(direction);                                     
+                }
+
+                grid[y][x].val |= SELECTED;
+                grid[dy][dx].val |= SELECTED;
+            }
+            else
+            {
+                isFinished = true;
+            }
+        }
+
+        private void CarvePassages()
+        {
+            while (edges.Count > 0)
+            {
+                Edge temp = edges.Pop();
+
+                int x = temp.getX();
+                int y = temp.getY();
+                int direction = temp.getDirection();
+
+                int dx = x + Maze.DX(direction);
+                int dy = y + Maze.DY(direction);
+
+                Tree set1 = sets[y][x];
+                Tree set2 = sets[dy][dx];
+
+                if (!set1.connected(set2))
+                {
+                    set1.connect(set2);
+
+                    grid[y][x].val |= direction;                    
+                    grid[dy][dx].val |= Maze.OPPOSITE(direction);                    
+                }
+            } 
+            isFinished = true;            
         }
 
         public override void Animate()
         {
-            carvePassages();
+            CarvePassage();
             Draw();
         }
         public override void Draw()
@@ -152,6 +184,12 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                 }
             }
             Console.WriteLine("i paint maze child");
+        }
+
+        public override void Finish()
+        {
+            CarvePassages();
+            Draw();
         }
 
         public void Shuffle(Stack<Edge> stack)

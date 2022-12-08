@@ -1,6 +1,7 @@
-﻿using MazeGenerator.core.maze.implementation.Kruskal;
-using MazeGenerator.src.algorithms;
-using MazeGenerator.src.maze.implementation;
+﻿using MazeGenerator.core.maze.implementation.BFS;
+using MazeGenerator.core.maze.implementation.Kruskal;
+using MazeGenerator.core.algorithms;
+using MazeGenerator.core.maze.implementation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static MazeGenerator.src.maze.DrawingTools;
+using static MazeGenerator.core.maze.DrawingTools;
 
 namespace MazeGenerator{
    
@@ -20,7 +21,7 @@ namespace MazeGenerator{
         Bitmap bitmap;        
         int counter;
 
-        private Maze maze;
+        private Maze maze;        
 
         Random random;
         public Form1()
@@ -101,6 +102,24 @@ namespace MazeGenerator{
         {
             pictureBoxMaze.Image = bitmap;
             maze.Animate();
+        }
+
+        private void buttonFinish_Click(object sender, EventArgs e)
+        {
+            pictureBoxMaze.Image = bitmap;
+            timer1.Stop();
+            maze.Finish();
+        }
+
+        private void pictureBoxMaze_Click(object sender, EventArgs e)
+        {
+            MouseEventArgs me = (MouseEventArgs)e;
+            Point coordinates = me.Location;            
+        }
+
+        private void buttonBFS_Click(object sender, EventArgs e)
+        {
+            maze = new BFS(maze);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-using MazeGenerator.src.algorithms;
+using MazeGenerator.core.algorithms;
 using System;
 using System.Collections.Generic;
 
@@ -37,23 +37,20 @@ namespace MazeGenerator
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelStart = new System.Windows.Forms.Label();
             this.labelFrames = new System.Windows.Forms.Label();
             this.labelMazeWidth = new System.Windows.Forms.Label();
             this.numericUpDownMazeSize = new System.Windows.Forms.NumericUpDown();
             this.labelAlgorithmName = new System.Windows.Forms.Label();
             this.comboBoxAlgorithm = new System.Windows.Forms.ComboBox();
             this.numericUpDownFrames = new System.Windows.Forms.NumericUpDown();
-            this.labelStop = new System.Windows.Forms.Label();
-            this.labelReset = new System.Windows.Forms.Label();
             this.buttonStart = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
             this.buttonReset = new System.Windows.Forms.Button();
             this.pictureBoxMaze = new System.Windows.Forms.PictureBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.ButtonNextStep = new System.Windows.Forms.Button();
+            this.buttonFinish = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.buttonBFS = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMazeSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrames)).BeginInit();
@@ -74,22 +71,19 @@ namespace MazeGenerator
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.button2, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.button1, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.labelStart, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.labelFrames, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.labelMazeWidth, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.numericUpDownMazeSize, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelAlgorithmName, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.comboBoxAlgorithm, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.numericUpDownFrames, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labelStop, 4, 0);
-            this.tableLayoutPanel1.Controls.Add(this.labelReset, 5, 0);
-            this.tableLayoutPanel1.Controls.Add(this.buttonStart, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.buttonStop, 4, 1);
-            this.tableLayoutPanel1.Controls.Add(this.buttonReset, 5, 1);
             this.tableLayoutPanel1.Controls.Add(this.pictureBoxMaze, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.ButtonNextStep, 5, 2);
+            this.tableLayoutPanel1.Controls.Add(this.buttonStart, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonStop, 4, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonFinish, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonReset, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ButtonNextStep, 4, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonBFS, 5, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1, -3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 9;
@@ -104,20 +98,6 @@ namespace MazeGenerator
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1203, 1148);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // labelStart
-            // 
-            this.labelStart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStart.AutoSize = true;
-            this.labelStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelStart.Location = new System.Drawing.Point(603, 0);
-            this.labelStart.Name = "labelStart";
-            this.labelStart.Size = new System.Drawing.Size(194, 50);
-            this.labelStart.TabIndex = 7;
-            this.labelStart.Text = "Start";
-            this.labelStart.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelFrames
             // 
@@ -220,41 +200,13 @@ namespace MazeGenerator
             0});
             this.numericUpDownFrames.ValueChanged += new System.EventHandler(this.numericUpDownFrames_ValueChanged);
             // 
-            // labelStop
-            // 
-            this.labelStop.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStop.AutoSize = true;
-            this.labelStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelStop.Location = new System.Drawing.Point(803, 0);
-            this.labelStop.Name = "labelStop";
-            this.labelStop.Size = new System.Drawing.Size(194, 50);
-            this.labelStop.TabIndex = 7;
-            this.labelStop.Text = "Stop";
-            this.labelStop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelReset
-            // 
-            this.labelReset.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelReset.AutoSize = true;
-            this.labelReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelReset.Location = new System.Drawing.Point(1003, 0);
-            this.labelReset.Name = "labelReset";
-            this.labelReset.Size = new System.Drawing.Size(194, 50);
-            this.labelReset.TabIndex = 7;
-            this.labelReset.Text = "Reset";
-            this.labelReset.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // buttonStart
             // 
             this.buttonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonStart.Location = new System.Drawing.Point(603, 53);
+            this.buttonStart.Location = new System.Drawing.Point(603, 3);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(194, 44);
             this.buttonStart.TabIndex = 8;
@@ -268,7 +220,7 @@ namespace MazeGenerator
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonStop.Location = new System.Drawing.Point(803, 53);
+            this.buttonStop.Location = new System.Drawing.Point(803, 3);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(194, 44);
             this.buttonStop.TabIndex = 8;
@@ -282,7 +234,7 @@ namespace MazeGenerator
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonReset.Location = new System.Drawing.Point(1003, 53);
+            this.buttonReset.Location = new System.Drawing.Point(1003, 3);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(194, 44);
             this.buttonReset.TabIndex = 8;
@@ -301,37 +253,7 @@ namespace MazeGenerator
             this.pictureBoxMaze.Size = new System.Drawing.Size(794, 794);
             this.pictureBoxMaze.TabIndex = 0;
             this.pictureBoxMaze.TabStop = false;
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 2000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(203, 1003);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(194, 142);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Reset";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(3, 1003);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(194, 142);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "Reset";
-            this.button2.UseVisualStyleBackColor = true;
+            this.pictureBoxMaze.Click += new System.EventHandler(this.pictureBoxMaze_Click);
             // 
             // ButtonNextStep
             // 
@@ -339,13 +261,46 @@ namespace MazeGenerator
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonNextStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ButtonNextStep.Location = new System.Drawing.Point(1003, 103);
+            this.ButtonNextStep.Location = new System.Drawing.Point(803, 53);
             this.ButtonNextStep.Name = "ButtonNextStep";
             this.ButtonNextStep.Size = new System.Drawing.Size(194, 44);
             this.ButtonNextStep.TabIndex = 8;
             this.ButtonNextStep.Text = "Next";
             this.ButtonNextStep.UseVisualStyleBackColor = true;
             this.ButtonNextStep.Click += new System.EventHandler(this.buttonNext_Click);
+            // 
+            // buttonFinish
+            // 
+            this.buttonFinish.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonFinish.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonFinish.Location = new System.Drawing.Point(603, 53);
+            this.buttonFinish.Name = "buttonFinish";
+            this.buttonFinish.Size = new System.Drawing.Size(194, 44);
+            this.buttonFinish.TabIndex = 8;
+            this.buttonFinish.Text = "Finish";
+            this.buttonFinish.UseVisualStyleBackColor = true;
+            this.buttonFinish.Click += new System.EventHandler(this.buttonFinish_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 2000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // buttonBFS
+            // 
+            this.buttonBFS.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonBFS.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonBFS.Location = new System.Drawing.Point(1003, 53);
+            this.buttonBFS.Name = "buttonBFS";
+            this.buttonBFS.Size = new System.Drawing.Size(194, 44);
+            this.buttonBFS.TabIndex = 8;
+            this.buttonBFS.Text = "BFS";
+            this.buttonBFS.UseVisualStyleBackColor = true;
+            this.buttonBFS.Click += new System.EventHandler(this.buttonBFS_Click);
             // 
             // Form1
             // 
@@ -374,16 +329,13 @@ namespace MazeGenerator
         private System.Windows.Forms.Label labelAlgorithmName;
         private System.Windows.Forms.Label labelFrames;
         private System.Windows.Forms.NumericUpDown numericUpDownFrames;
-        private System.Windows.Forms.Label labelStart;
-        private System.Windows.Forms.Label labelStop;
-        private System.Windows.Forms.Label labelReset;
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button ButtonNextStep;
+        private System.Windows.Forms.Button buttonFinish;
+        private System.Windows.Forms.Button buttonBFS;
     }
 }
 

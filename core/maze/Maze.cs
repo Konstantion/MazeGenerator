@@ -5,9 +5,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static MazeGenerator.src.maze.DrawingTools;
+using static MazeGenerator.core.maze.DrawingTools;
 
-namespace MazeGenerator.src.maze.implementation
+namespace MazeGenerator.core.maze.implementation
 {
     class Maze
     {
@@ -27,8 +27,17 @@ namespace MazeGenerator.src.maze.implementation
 
         protected Graphics g;
         protected bool isAnimating = true;
+        protected bool isFinished = false;
     
-
+        protected Maze(Maze maze)
+        {
+            this.g = maze.g;
+            this.grid = (Cell[][]) maze.grid.Clone();
+            this.n = maze.n;
+            this.w = maze.w;
+            this.h = maze.h;
+            this.random = maze.random;            
+        }
         public Maze(int n, int w, int h, Graphics g)
         {
             this.g = g;
@@ -138,6 +147,11 @@ namespace MazeGenerator.src.maze.implementation
         {
             Draw();
         }
+
+        public virtual void Finish()
+        {
+            Draw();
+        }
         public static int DX(int direction)
         {
             switch (direction)
@@ -185,9 +199,19 @@ namespace MazeGenerator.src.maze.implementation
             return -1;
         }
 
-        public void setAnimate(bool isAnimating)
+        public void SetAnimating(bool isAnimating)
         {
             this.isAnimating = isAnimating;
+        }
+
+        public Cell[][] GetGrid()
+        {
+            return (Cell[][]) grid.Clone();
+        }
+
+        public void SetGrid(Cell[][] grid)
+        {
+            this.grid = grid;
         }
     }
 }

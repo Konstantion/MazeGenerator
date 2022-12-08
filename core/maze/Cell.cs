@@ -1,4 +1,4 @@
-﻿using MazeGenerator.src.maze.implementation;
+﻿using MazeGenerator.core.maze.implementation;
 
 using System;
 using System.Collections.Generic;
@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static MazeGenerator.src.maze.DrawingTools;
+using static MazeGenerator.core.maze.DrawingTools;
 
-namespace MazeGenerator.src.maze
+namespace MazeGenerator.core.maze
 {
     class Cell 
     {

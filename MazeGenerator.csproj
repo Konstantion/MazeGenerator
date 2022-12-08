@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="core\maze\implementation\BFS\BFS.cs" />
+    <Compile Include="core\maze\implementation\BFS\BFSPoint.cs" />
     <Compile Include="core\maze\implementation\Kruskal\Edge.cs" />
     <Compile Include="core\maze\implementation\Kruskal\Tree.cs" />
     <Compile Include="core\maze\implementation\Kruskal\Kruskal.cs" />

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MazeGenerator.src.maze
+namespace MazeGenerator.core.maze
 {
     
     static class DrawingTools
@@ -19,6 +19,10 @@ namespace MazeGenerator.src.maze
         public static readonly SolidBrush GRAY_BRUSH = new SolidBrush(Color.Gray);
         public static readonly SolidBrush RED_BRUSH = new SolidBrush(Color.Red);
         public static readonly SolidBrush YELLOW_BRUSH = new SolidBrush(Color.Yellow);
+        public static readonly SolidBrush BLUE_BRUSH = new SolidBrush(Color.Blue);
+        public static readonly SolidBrush DARK_BLUE_BRUSH = new SolidBrush(Color.DarkBlue);
+        public static readonly SolidBrush AZURE_BRUSH = new SolidBrush(Color.Azure);
+        public static readonly SolidBrush AQUAMARINE_BRUSH = new SolidBrush(Color.Aquamarine);
 
 
     }
