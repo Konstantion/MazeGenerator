@@ -3,23 +3,17 @@ using MazeGenerator.core.maze.implementation.Kruskal;
 using MazeGenerator.core.algorithms;
 using MazeGenerator.core.maze.implementation;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static MazeGenerator.core.maze.DrawingTools;
 
-namespace MazeGenerator{
-   
+namespace MazeGenerator
+{
+
     public partial class Form1 : Form
     {
         Graphics g;
         Bitmap bitmap;        
-        int counter;
+        
 
         private Maze maze;        
 
@@ -30,9 +24,9 @@ namespace MazeGenerator{
             SetAlgorithmComboBoxData();
 
             bitmap = new Bitmap(pictureBoxMaze.Width, pictureBoxMaze.Height);
-            g = Graphics.FromImage(bitmap);            
+            g = Graphics.FromImage(bitmap);           
 
-            counter = 0;
+            
             random = new Random();
 
             initMaze();
@@ -93,8 +87,7 @@ namespace MazeGenerator{
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
-        {
-            counter = 0;
+        {           
             initMaze();
         }
 
@@ -113,13 +106,28 @@ namespace MazeGenerator{
 
         private void pictureBoxMaze_Click(object sender, EventArgs e)
         {
-            MouseEventArgs me = (MouseEventArgs)e;
-            Point coordinates = me.Location;            
+            if (maze.isFinished && maze.GetType() == typeof(BFS))
+            {
+                pictureBoxMaze.Image = bitmap;
+
+                BFS temp =  (BFS) maze;
+                MouseEventArgs me = (MouseEventArgs)e;
+                Point coordinates = me.Location;
+                temp.SetPoint(coordinates);
+                Console.WriteLine(coordinates);
+                maze = temp;
+                maze.Draw();
+            }
         }
 
         private void buttonBFS_Click(object sender, EventArgs e)
         {
-            maze = new BFS(maze);
+            if (maze.isFinished)
+            {
+                pictureBoxMaze.Image = bitmap;
+                maze = new BFS(maze);
+                maze.Draw();                
+            }
         }
     }
 }

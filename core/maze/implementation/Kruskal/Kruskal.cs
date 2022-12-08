@@ -146,41 +146,13 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                         grid[j][i].DrawCell(WHITE_BRUSH);
                     }
 
-                    if ((grid[j][i].val & S) != 0)
-                    {
-                        grid[j][i].EraseSouthWall();
-                    }
-                    else
-                    {
-                        grid[j][i].DrawSouthWall();
-                    }
+                    CheckWall(i, j, N);
 
-                    if ((grid[j][i].val & W) != 0)
-                    {
-                        grid[j][i].EraseWestWall();
-                    }
-                    else
-                    {
-                        grid[j][i].DrawWestWall();
-                    }
+                    CheckWall(i, j, E);
 
-                    if ((grid[j][i].val & N) != 0)
-                    {
-                        grid[j][i].EraseNorthWall();
-                    }
-                    else
-                    {
-                        grid[j][i].DrawNorthWall();
-                    }
+                    CheckWall(i, j, S);
 
-                    if ((grid[j][i].val & E) != 0)
-                    {
-                        grid[j][i].EraseEastWall();
-                    }
-                    else
-                    {
-                        grid[j][i].DrawEastWall();
-                    }
+                    CheckWall(i, j, W);
                 }
             }
             Console.WriteLine("i paint maze child");

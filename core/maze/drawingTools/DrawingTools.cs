@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace MazeGenerator.core.maze
 {
-    
+
     static class DrawingTools
     {
         public static readonly int CELL_BORDER = 2;
@@ -21,7 +16,7 @@ namespace MazeGenerator.core.maze
         public static readonly SolidBrush YELLOW_BRUSH = new SolidBrush(Color.Yellow);
         public static readonly SolidBrush BLUE_BRUSH = new SolidBrush(Color.Blue);
         public static readonly SolidBrush DARK_BLUE_BRUSH = new SolidBrush(Color.DarkBlue);
-        public static readonly SolidBrush AZURE_BRUSH = new SolidBrush(Color.Azure);
+        public static readonly SolidBrush GREEN_BRUSH = new SolidBrush(Color.Green);
         public static readonly SolidBrush AQUAMARINE_BRUSH = new SolidBrush(Color.Aquamarine);
 
 

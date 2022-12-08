@@ -27,7 +27,7 @@ namespace MazeGenerator.core.maze.implementation
 
         protected Graphics g;
         protected bool isAnimating = true;
-        protected bool isFinished = false;
+        public bool isFinished = false;
     
         protected Maze(Maze maze)
         {
@@ -36,7 +36,8 @@ namespace MazeGenerator.core.maze.implementation
             this.n = maze.n;
             this.w = maze.w;
             this.h = maze.h;
-            this.random = maze.random;            
+            this.random = maze.random;
+            this.isFinished = maze.isFinished;
         }
         public Maze(int n, int w, int h, Graphics g)
         {
@@ -103,41 +104,13 @@ namespace MazeGenerator.core.maze.implementation
                         grid[j][i].DrawCell(WHITE_BRUSH);
                     }
 
-                    if((grid[j][i].val & S) !=0)
-                    {
-                        grid[j][i].EraseSouthWall();
-                    }
-                    else
-                    {
-                        grid[j][i].DrawSouthWall();
-                    }
+                    CheckWall(i, j, N);
 
-                    if ((grid[j][i].val & W) != 0)
-                    {
-                        grid[j][i].EraseWestWall();
-                    }
-                    else
-                    {
-                        grid[j][i].DrawWestWall();
-                    }
+                    CheckWall(i, j, E);
 
-                    if ((grid[j][i].val & N) != 0)
-                    {
-                        grid[j][i].EraseNorthWall();
-                    }
-                    else
-                    {
-                        grid[j][i].DrawNorthWall();
-                    }
+                    CheckWall(i, j, S);
 
-                    if ((grid[j][i].val & E) != 0)
-                    {
-                        grid[j][i].EraseEastWall();
-                    }
-                    else
-                    {
-                        grid[j][i].DrawEastWall();
-                    }
+                    CheckWall(i, j, W);
                 }
             }
             Console.WriteLine("i paint maze base");
@@ -152,6 +125,7 @@ namespace MazeGenerator.core.maze.implementation
         {
             Draw();
         }
+
         public static int DX(int direction)
         {
             switch (direction)
@@ -167,6 +141,7 @@ namespace MazeGenerator.core.maze.implementation
            
             return -1;
         }
+
         public static int DY(int direction)
         {
             switch (direction)
@@ -182,6 +157,7 @@ namespace MazeGenerator.core.maze.implementation
             // error condition, but should never reach here
             return -1;
         }
+
         public static int OPPOSITE(int direction)
         {
             switch (direction)
@@ -213,5 +189,19 @@ namespace MazeGenerator.core.maze.implementation
         {
             this.grid = grid;
         }
+
+        protected void CheckWall(int i, int j, int DIRECTION)
+        {
+            if ((grid[j][i].val & DIRECTION) != 0)
+            {
+                grid[j][i].EraseWall(DIRECTION, WHITE_PEN);
+            }
+            else
+            {
+                grid[j][i].DrawWall(DIRECTION, BLACK_PEN);
+            }
+        }
+
+        
     }
 }
