@@ -16,9 +16,13 @@ namespace MazeGenerator.core.maze.implementation.BFS
         public const int END = 32;
         public const int DEQUEUED = 64;
         public const int ENQUEUED = 128;
+
         private BFSPoint start;
         private BFSPoint end;
+
         private bool isStart = true;
+        private bool isCellFounded = false;
+
         private Queue<Cell> queue;
 
         private BFS(int n, int w, int h, Graphics g) : base(n, w, h, g)
