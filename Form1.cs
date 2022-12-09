@@ -79,6 +79,8 @@ namespace MazeGenerator
 
         private void initMaze()
         {
+            IsOnBFSMode = false;
+
             pictureBoxMaze.Image = bitmap;
 
             int n = (int)numericUpDownMazeSize.Value;
@@ -108,11 +110,14 @@ namespace MazeGenerator
 
         private void pictureBoxMaze_Click(object sender, EventArgs e)
         {
-            if (maze.isFinished && maze.GetType() == typeof(BFS))
+            if (maze.isFinished 
+                && maze.GetType() == typeof(BFS)
+                && maze is BFS temp
+                && !temp.isCellFounded
+                )
             {
                 pictureBoxMaze.Image = bitmap;
-
-                BFS temp =  (BFS) maze;
+                
                 MouseEventArgs me = (MouseEventArgs)e;
                 Point coordinates = me.Location;
                 temp.SetPoint(coordinates);

@@ -14,7 +14,7 @@ namespace MazeGenerator.core.maze.implementation.BFS
     {
         public const int START = 16;
         public const int END = 32;
-        public const int DEQUEUED = 64;
+        public const int VISITED = 64;
         public const int ENQUEUED = 128;
 
         private BFSPoint start;
@@ -22,10 +22,14 @@ namespace MazeGenerator.core.maze.implementation.BFS
 
         private bool isStart = true;
         public bool isCellFounded = false;
-        private bool isPathBuilt = false;
+        public bool isPathFounded = false;
+        public bool isPathDrawn = false;
+        
 
         private Queue<Cell> queue;
-        private BFSTree pathTree;
+        private Queue<Cell> pathQueue;
+
+        private List<List<BFSTree>> pathTree;
 
         private BFS(int n, int w, int h, Graphics g) : base(n, w, h, g)
         {
@@ -36,8 +40,6 @@ namespace MazeGenerator.core.maze.implementation.BFS
         {
 
         }
-
-
 
         public BFS(Maze maze) : base(maze)
         {
@@ -52,45 +54,87 @@ namespace MazeGenerator.core.maze.implementation.BFS
             grid[start.y][start.x].val |= START;
             grid[end.y][end.x].val |= END;
 
-            queue = new Queue<Cell>();
-            pathTree = new BFSTree(grid[start.y][start.x]);
-
+            queue = new Queue<Cell>();      
             queue.Enqueue(grid[start.y][start.x]);
+
+            pathQueue = new Queue<Cell>();
+            pathTree = new List<List<BFSTree>>();
+            for (int y = 0; y < n; ++y)
+            {
+                List<BFSTree> temp = new List<BFSTree>();
+                for (int x = 0; x < n; ++x)
+                {
+                    temp.Add(new BFSTree(grid[y][x]));
+                }
+                pathTree.Add(temp);
+            }
         }
 
         private void DoStepInDepth()
-        {
-            if(queue.Count > 0 && !isCellFounded)
+        {           
+            Cell current = queue.Dequeue();
+
+            current.val -= ENQUEUED;
+            current.val |= VISITED;
+
+            Console.WriteLine($"Current {current}");
+
+            if(current.Equals(grid[end.y][end.x]))
             {
-                Cell current = queue.Dequeue();
+                isCellFounded = true;
+                return;
+            }
 
-                current.val -= ENQUEUED;
-                current.val |= DEQUEUED;
+            List<Cell> neighborCells = ExtractNeighborCells(current);
 
-                Console.WriteLine($"Current {current}");
+            Console.WriteLine("Enqueue elements:");
 
-                if(current.Equals(grid[end.y][end.x]))
-                {
-                    isCellFounded = true;
-                    return;
-                }
+            foreach (Cell cell in neighborCells)
+            {
+                pathTree[cell.Y][cell.X].SetPerent(pathTree[current.Y][current.X]);                  
+                    
 
-                List<Cell> neighborCells = ExtractNeighborCells(current);
+                queue.Enqueue(cell);
+                cell.val |= ENQUEUED;
+            }                        
+        }
 
-                Console.WriteLine("Enqueue elements:");
+        private void BuildPath()
+        {
+            while (!pathTree[end.y][end.x].cell
+                   .Equals(pathTree[start.y][start.x].cell))
+            {
+                pathQueue.Enqueue(grid[end.y][end.x]);
 
-                foreach (Cell cell in neighborCells)
-                {
-                    Console.WriteLine(cell);
-                    queue.Enqueue(cell);
-                    cell.val |= ENQUEUED;
-                }
+                int perent_x = pathTree[end.y][end.x].parent.cell.X;
+                int perent_y = pathTree[end.y][end.x].parent.cell.Y;
+
+                end.y = perent_y;
+                end.x = perent_x;               
+            }
+            isPathFounded = true;
+        }
+
+        private void DrawPath()
+        {
+            if(pathQueue.Count > 0)
+            {
+                Cell temp = pathQueue.Dequeue();
+
+                temp.val -= VISITED;
+                temp.val += START;
+            }
+            else
+            {
+                isPathDrawn = true;
             }
         }
 
         public override void Animate()
         {
-            DoStepInDepth();
+            if (queue.Count > 0 && !isCellFounded) DoStepInDepth();
+            else if ((isCellFounded || queue.Count == 0) && !isPathFounded) BuildPath();
+            else if (!isPathDrawn) DrawPath();
             BFSDraw();
         }
 
@@ -198,7 +242,7 @@ namespace MazeGenerator.core.maze.implementation.BFS
             {
                 grid[j][i].DrawFullCell(AQUAMARINE_BRUSH);
             }
-            else if ((grid[j][i].val & DEQUEUED) != 0)
+            else if ((grid[j][i].val & VISITED) != 0)
             {
                 grid[j][i].DrawFullCell(LIGHT_BLUE_BRUSH);
             }
@@ -224,16 +268,16 @@ namespace MazeGenerator.core.maze.implementation.BFS
         {
             List<Cell> cells = new List<Cell>();
 
-            if (((cell.val & E) != 0) && (grid[cell.Y][cell.X + 1].val & DEQUEUED) == 0) 
+            if (((cell.val & E) != 0) && (grid[cell.Y][cell.X + 1].val & VISITED) == 0) 
                 cells.Add(grid[cell.Y][cell.X+1]);
             
-            if ((cell.val & W) != 0 && (grid[cell.Y][cell.X - 1].val & DEQUEUED) == 0) 
+            if ((cell.val & W) != 0 && (grid[cell.Y][cell.X - 1].val & VISITED) == 0) 
                 cells.Add(grid[cell.Y][cell.X-1]);
             
-            if ((cell.val & N) != 0 && (grid[cell.Y - 1][cell.X].val & DEQUEUED) == 0) 
+            if ((cell.val & N) != 0 && (grid[cell.Y - 1][cell.X].val & VISITED) == 0) 
                 cells.Add(grid[cell.Y -1][cell.X]);
             
-            if ((cell.val & S) != 0 && (grid[cell.Y + 1][cell.X].val & DEQUEUED) == 0) 
+            if ((cell.val & S) != 0 && (grid[cell.Y + 1][cell.X].val & VISITED) == 0) 
                 cells.Add(grid[cell.Y + 1][cell.X]);
 
             return cells;

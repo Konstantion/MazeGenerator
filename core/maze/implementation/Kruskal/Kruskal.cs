@@ -69,9 +69,9 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                 Tree set1 = sets[y][x];
                 Tree set2 = sets[dy][dx];
 
-                if (!set1.connected(set2))
+                if (!set1.Connected(set2))
                 {
-                    set1.connect(set2);
+                    set1.Connect(set2);
 
 
                     grid[y][x].val |= direction;                    
@@ -103,9 +103,9 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                 Tree set1 = sets[y][x];
                 Tree set2 = sets[dy][dx];
 
-                if (!set1.connected(set2))
+                if (!set1.Connected(set2))
                 {
-                    set1.connect(set2);
+                    set1.Connect(set2);
 
                     grid[y][x].val |= direction;                    
                     grid[dy][dx].val |= Maze.OPPOSITE(direction);                    
