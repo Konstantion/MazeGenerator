@@ -27,93 +27,82 @@ namespace MazeGenerator.core.maze
             g.FillRectangle(brush, fullBackGround);
         }
 
-        //Draw North wall
+        /// <summary>
+        /// Draw North wall of the Cell using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         private void DrawNorthWall(Pen pen)
         {
             g.DrawLine(pen, x, y, x + size, y);
-        }
+        }       
 
-        public void DrawNorthWall()
-        {
-            DrawNorthWall(BLACK_PEN);
-        }
-
-        //Draw South wall
+        /// <summary>
+        /// Draw South wall of the Cell using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         public void DrawSouthWall(Pen pen)
         {
             g.DrawLine(pen, x, y + size, x + size, y + size);
-        }
+        }       
 
-        public void DrawSouthWall()
-        {
-            DrawSouthWall(WHITE_PEN);
-        }
-
-        //Draw East wall
+        /// <summary>
+        /// Draw East wall of the Cell using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         public void DrawEastWall(Pen pen)
         {
             g.DrawLine(pen, x + size, y, x + size, y + size);
-        }
+        }       
 
-        public void DrawEastWall()
-        {
-            DrawEastWall(BLACK_PEN);
-        }
-
-        //Draw West wall
+        /// <summary>
+        /// Draw West wall of the Cell using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         public void DrawWestWall(Pen pen)
         {
             g.DrawLine(pen, x, y, x, y + size);
         }
 
-        public void DrawWestWall()
-        {
-            DrawWestWall(BLACK_PEN);
-        }
-
-        //Erase Notrh wall
+        /// <summary>
+        /// Erase North wall of the Cell using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         private void EraseNorthWall(Pen pen)
         {
             g.DrawLine(pen, x + CELL_INDENT, y, x + size - CELL_INDENT, y);
         }
 
-        public void EraseNorthWall()
-        {
-            EraseNorthWall(WHITE_PEN);
-        }
-
-        //Erase South wall
+        /// <summary>
+        /// Erase South wall of the Cell using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         private void EraseSouthWall(Pen pen)
         {
             g.DrawLine(pen, x + CELL_INDENT, y + size, x + size - CELL_INDENT, y + size);
         }
 
-        public void EraseSouthWall()
-        {
-            EraseSouthWall(WHITE_PEN);
-        }
-
-        //Erase East wall
+        /// <summary>
+        /// Erase East wall of the Cell using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         private void EraseEastWall(Pen pen)
         {
             g.DrawLine(pen, x + size, y + CELL_INDENT, x + size, y + size - CELL_INDENT);
         }
 
-        public void EraseEastWall()
-        {
-            EraseEastWall(WHITE_PEN);
-        }
-
-        //Erase West wall
+        /// <summary>
+        /// Erase West wall of the Cell using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         private void EraseWestWall(Pen pen)
         {
             g.DrawLine(pen, x, y + CELL_INDENT, x, y + size - CELL_INDENT);
         }
-        public void EraseWestWall()
-        {
-            EraseWestWall(WHITE_PEN);
-        }
 
+        /// <summary>
+        /// Erase wall of the Cell by given direction using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         public void EraseWall(int DIRECTION, Pen pen)
         {
             switch (DIRECTION)
@@ -133,6 +122,10 @@ namespace MazeGenerator.core.maze
             }
         }
 
+        /// <summary>
+        /// Draw wall of the Cell using given direction using given pen
+        /// </summary>
+        /// <param name="pen"></param>
         public void DrawWall(int DIRECTION, Pen pen)
         {
             switch (DIRECTION)

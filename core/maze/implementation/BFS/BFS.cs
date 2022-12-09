@@ -20,26 +20,16 @@ namespace MazeGenerator.core.maze.implementation.BFS
         private BFSPoint start;
         private BFSPoint end;
 
-        private bool isStart = true;
+        
         public bool isCellFounded = false;
         public bool isPathFounded = false;
         public bool isPathDrawn = false;
         
 
-        private Queue<Cell> queue;
+        private Queue<Cell> bfsQueue;
         private Queue<Cell> pathQueue;
 
-        private List<List<BFSTree>> pathTree;
-
-        private BFS(int n, int w, int h, Graphics g) : base(n, w, h, g)
-        {
-
-        }
-
-        private BFS(int n, int w, int h, Graphics g, int seed) : base(n, w, h, g, seed)
-        {
-
-        }
+        private List<List<BFSTree>> pathTree;  
 
         public BFS(Maze maze) : base(maze)
         {
@@ -54,8 +44,8 @@ namespace MazeGenerator.core.maze.implementation.BFS
             grid[start.y][start.x].val |= START;
             grid[end.y][end.x].val |= END;
 
-            queue = new Queue<Cell>();      
-            queue.Enqueue(grid[start.y][start.x]);
+            bfsQueue = new Queue<Cell>();      
+            bfsQueue.Enqueue(grid[start.y][start.x]);
 
             pathQueue = new Queue<Cell>();
             pathTree = new List<List<BFSTree>>();
@@ -70,14 +60,26 @@ namespace MazeGenerator.core.maze.implementation.BFS
             }
         }
 
+        private void ExecuteEntireAlgorithm()
+        {
+            while(bfsQueue.Count > 0 && !isCellFounded)
+            {
+                DoStepInDepth();
+            }
+
+            FindPath();
+
+            while (pathQueue.Count > 0) {
+                BuildPath();
+            }
+        }
+
         private void DoStepInDepth()
         {           
-            Cell current = queue.Dequeue();
+            Cell current = bfsQueue.Dequeue();
 
             current.val -= ENQUEUED;
-            current.val |= VISITED;
-
-            Console.WriteLine($"Current {current}");
+            current.val |= VISITED;           
 
             if(current.Equals(grid[end.y][end.x]))
             {
@@ -91,15 +93,17 @@ namespace MazeGenerator.core.maze.implementation.BFS
 
             foreach (Cell cell in neighborCells)
             {
-                pathTree[cell.Y][cell.X].SetPerent(pathTree[current.Y][current.X]);                  
-                    
+                pathTree[cell.Y][cell.X].SetPerent(pathTree[current.Y][current.X]);
 
-                queue.Enqueue(cell);
-                cell.val |= ENQUEUED;
+                if ((cell.val & VISITED) == 0)
+                {
+                    bfsQueue.Enqueue(cell);
+                    cell.val |= ENQUEUED;
+                }
             }                        
         }
 
-        private void BuildPath()
+        private void FindPath()
         {
             while (!pathTree[end.y][end.x].cell
                    .Equals(pathTree[start.y][start.x].cell))
@@ -112,10 +116,11 @@ namespace MazeGenerator.core.maze.implementation.BFS
                 end.y = perent_y;
                 end.x = perent_x;               
             }
+
             isPathFounded = true;
         }
 
-        private void DrawPath()
+        private void BuildPath()
         {
             if(pathQueue.Count > 0)
             {
@@ -132,36 +137,63 @@ namespace MazeGenerator.core.maze.implementation.BFS
 
         public override void Animate()
         {
-            if (queue.Count > 0 && !isCellFounded) DoStepInDepth();
-            else if ((isCellFounded || queue.Count == 0) && !isPathFounded) BuildPath();
-            else if (!isPathDrawn) DrawPath();
+            if (bfsQueue.Count > 0 && !isCellFounded)
+            {
+                DoStepInDepth();
+            }
+            else if ((isCellFounded || bfsQueue.Count == 0) && !isPathFounded)
+            {
+                FindPath();
+            }
+            else if (!isPathDrawn) 
+            {
+                BuildPath(); 
+            }
+
             BFSDraw();
         }
 
-        public void SetPoint(Point point)
+        public override void Finish()
         {
-            if(isStart)
-            {
-                grid[start.y][start.x].val -= START;
+            ExecuteEntireAlgorithm();
 
-                start = CalcIndexFromPoint(point);
+            BFSDraw();
+        }
 
-                grid[start.y][start.x].val |= START;
+        public void SetPoint(Point point, bool isLeft)
+        {
+            if(isLeft)
+            {  
+                BFSPoint new_start = CalcIndexFromPoint(point);
 
-                isStart = false;
+                if (!PointCanBeMarked(new_start)) return;                
 
-                queue = new Queue<Cell>();
-                queue.Enqueue(grid[start.y][start.x]);                
+                grid[start.y][start.x].val -= START;                            
+
+                ClearCellFromBFSStatuses(new_start.x, new_start.y);
+
+                grid[new_start.y][new_start.x].val |= START;
+
+                
+
+                start = new_start;
+
+                bfsQueue = new Queue<Cell>();
+                bfsQueue.Enqueue(grid[start.y][start.x]);                
             }
             else
             {
-                grid[end.y][end.x].val -= END;
+                BFSPoint new_end = CalcIndexFromPoint(point);
 
-                end = CalcIndexFromPoint(point);
+                if (!PointCanBeMarked(new_end)) return;                
 
-                grid[end.y][end.x].val |= END;
+                grid[end.y][end.x].val -= END;               
 
-                isStart = true;
+                ClearCellFromBFSStatuses(new_end.x, new_end.y);
+
+                grid[new_end.y][new_end.x].val |= END;
+
+                end = new_end;
             }
         }     
         
@@ -174,13 +206,30 @@ namespace MazeGenerator.core.maze.implementation.BFS
             return new BFSPoint(index_x, index_y);
         }
 
+        private bool PointCanBeMarked(BFSPoint bfsPoint)
+        {
+            return (grid[bfsPoint.y][bfsPoint.x].val & VISITED) == 0 
+                && (grid[bfsPoint.y][bfsPoint.x].val & ENQUEUED) == 0
+                && (grid[bfsPoint.y][bfsPoint.x].val & START) == 0
+                && (grid[bfsPoint.y][bfsPoint.x].val & END) == 0;
+        }
+
+        private void ClearCellFromBFSStatuses(Cell cell)
+        {
+            if ((cell.val & VISITED) != 0) cell.val -= VISITED;
+            if ((cell.val & ENQUEUED) != 0) cell.val -= ENQUEUED;
+            if ((cell.val & START) != 0) cell.val -= START;
+            if ((cell.val & END) != 0) cell.val -= END;
+        }
+
+        private void ClearCellFromBFSStatuses(int i, int j)
+        {
+            ClearCellFromBFSStatuses(grid[j][i]);
+        }
+
         public override void Draw()
         {
-            g.Clear(Color.White);
-            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
-            g.DrawLine(BLACK_PEN, 0, 0, w, 0);
-            g.DrawLine(BLACK_PEN, w, 0, w, h);
-            g.DrawLine(BLACK_PEN, 0, h, w, h);
+            DrawEmptyMaze();
 
             for (int j = 0; j < n; j++)
             {
@@ -196,18 +245,12 @@ namespace MazeGenerator.core.maze.implementation.BFS
 
                     CheckWall(i, j, W);
                 }
-            }
-            Console.WriteLine("i paint bfs base");
-                        
+            }          
         }
 
-        private void BFSDraw()
+        public void BFSDraw()
         {
-            g.Clear(Color.White);
-            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
-            g.DrawLine(BLACK_PEN, 0, 0, w, 0);
-            g.DrawLine(BLACK_PEN, w, 0, w, h);
-            g.DrawLine(BLACK_PEN, 0, h, w, h);
+            DrawEmptyMaze();
 
             for (int j = 0; j < n; j++)
             {
@@ -223,9 +266,7 @@ namespace MazeGenerator.core.maze.implementation.BFS
 
                     BFSCheckWall(i, j, W);
                 }
-            }
-            Console.WriteLine("i paint bfs base");
-
+            }        
         }
 
         private void BFSDrawCell(int i, int j)

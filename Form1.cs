@@ -62,20 +62,15 @@ namespace MazeGenerator
         private void buttonStart_Click(object sender, EventArgs e)
         {
             timer1.Start();
+            labelIsRunning.Text = "Execution is running";
             Console.WriteLine($"Timer start with interval {timer1.Interval}");
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
             timer1.Stop();
-        }
-
-        private void numericUpDownFrames_ValueChanged(object sender, EventArgs e)
-        {
-            int fps = (int)numericUpDownFrames.Value;
-            int interval = 1000 / fps;
-            timer1.Interval = interval;
-        }
+            labelIsRunning.Text = "Execution is stoped";
+        }        
 
         private void initMaze()
         {
@@ -106,6 +101,8 @@ namespace MazeGenerator
             pictureBoxMaze.Image = bitmap;
             timer1.Stop();
             maze.Finish();
+
+            labelIsRunning.Text = "Execution is stoped";
         }
 
         private void pictureBoxMaze_Click(object sender, EventArgs e)
@@ -120,10 +117,22 @@ namespace MazeGenerator
                 
                 MouseEventArgs me = (MouseEventArgs)e;
                 Point coordinates = me.Location;
-                temp.SetPoint(coordinates);
-                Console.WriteLine(coordinates);
-                maze = temp;
-                maze.Draw();
+
+                switch (me.Button)
+                {
+
+                    case MouseButtons.Left:
+                        temp.SetPoint(coordinates, true);
+                        break;
+
+                    case MouseButtons.Right:
+                        temp.SetPoint(coordinates, false);
+                        break;
+                }                       
+
+                temp.BFSDraw();
+
+                maze = temp;                
             }
         }
 
@@ -136,6 +145,13 @@ namespace MazeGenerator
                 maze = new BFS(maze);
                 maze.Draw();                
             }
+        }
+
+        private void trackBarSpeed_Scroll(object sender, EventArgs e)
+        {
+            int fps = (int)trackBarSpeed.Value;
+            int interval = 1000 / fps;
+            timer1.Interval = interval;
         }
     }
 }

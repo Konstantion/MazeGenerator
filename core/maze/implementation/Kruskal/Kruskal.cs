@@ -1,11 +1,6 @@
-﻿using MazeGenerator.core.maze.implementation;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using static MazeGenerator.core.maze.DrawingTools;
 
 namespace MazeGenerator.core.maze.implementation.Kruskal
@@ -19,15 +14,15 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
 
         public Kruskal(int n, int w, int h, Graphics g) : base(n, w, h ,g)
         {    
-            Initialize(w, h);
+            Initialize();
         }
 
         public Kruskal(int n, int w, int h, Graphics g, int seed) : base(n, w, h, g, seed)
         {
-            Initialize(w, h);
+            Initialize();
         }
 
-        private void Initialize(int w, int h)
+        private void Initialize()
         {
             sets = new List<List<Tree>>();
             for(int y = 0; y < n; ++y )
@@ -59,9 +54,9 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             {
                 Edge temp = edges.Pop();
 
-                int x = temp.getX();
-                int y = temp.getY();
-                int direction = temp.getDirection();
+                int x = temp.GetX();
+                int y = temp.GetY();
+                int direction = temp.GetDirection();
 
                 int dx = x + Maze.DX(direction);
                 int dy = y + Maze.DY(direction);
@@ -93,9 +88,9 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             {
                 Edge temp = edges.Pop();
 
-                int x = temp.getX();
-                int y = temp.getY();
-                int direction = temp.getDirection();
+                int x = temp.GetX();
+                int y = temp.GetY();
+                int direction = temp.GetDirection();
 
                 int dx = x + Maze.DX(direction);
                 int dy = y + Maze.DY(direction);
@@ -119,32 +114,16 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             CarvePassage();
             Draw();
         }
+
         public override void Draw()
         {
-            g.Clear(Color.White);
-            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
-            g.DrawLine(BLACK_PEN, 0, 0, w, 0);
-            g.DrawLine(BLACK_PEN, w, 0, w, h);
-            g.DrawLine(BLACK_PEN, 0, h, w, h);
+            DrawEmptyMaze();
 
             for (int j = 0; j < n; j++)
             {
                 for (int i = 0; i < n; i++)
                 {
-                    if (grid[j][i].val == 0)
-                    {
-                        grid[j][i].DrawCell();
-                    }
-                    else if((grid[j][i].val & SELECTED) != 0)
-                    {
-                        grid[j][i].DrawCell(YELLOW_BRUSH);
-                        grid[j][i].val -= SELECTED;
-                        
-                    }
-                    else
-                    {
-                        grid[j][i].DrawCell(WHITE_BRUSH);
-                    }
+                    DrawKruskalCell(i, j);
 
                     CheckWall(i, j, N);
 
@@ -154,8 +133,25 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
 
                     CheckWall(i, j, W);
                 }
+            }            
+        }
+
+        private void DrawKruskalCell(int i, int j)
+        {
+            if (grid[j][i].val == 0)
+            {
+                grid[j][i].DrawCell();
             }
-            Console.WriteLine("i paint maze child");
+            else if ((grid[j][i].val & SELECTED) != 0)
+            {
+                grid[j][i].DrawCell(YELLOW_BRUSH);
+                grid[j][i].val -= SELECTED;
+
+            }
+            else
+            {
+                grid[j][i].DrawCell(WHITE_BRUSH);
+            }
         }
 
         public override void Finish()

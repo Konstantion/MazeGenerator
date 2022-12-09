@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MazeGenerator.core.maze.implementation.Kruskal
+﻿namespace MazeGenerator.core.maze.implementation.Kruskal
 {
     class Edge
     {
-		private int x;
-		private int y;
-		private int direction;
+		private readonly int x;
+		private readonly int y;
+		private readonly int direction;
 
 		public Edge(int x, int y, int direction)
 		{
@@ -19,8 +13,8 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
 			this.direction = direction;
 		}
 
-		public int getX() { return x; }
-		public int getY() { return y; }
-		public int getDirection() { return direction; }
+		public int GetX() { return x; }
+		public int GetY() { return y; }
+		public int GetDirection() { return direction; }
 	}
 }

@@ -1,10 +1,5 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static MazeGenerator.core.maze.DrawingTools;
 
 namespace MazeGenerator.core.maze.implementation
@@ -17,12 +12,12 @@ namespace MazeGenerator.core.maze.implementation
         public const int W = 8;
         
        
-        protected Random random = null;
+        protected Random random;
         protected int seed;
         protected int n;
         protected int w = 0;
         protected int h = 0;
-        protected Cell[][] grid = null;
+        protected Cell[][] grid;
         
 
         protected Graphics g;
@@ -85,24 +80,13 @@ namespace MazeGenerator.core.maze.implementation
 
         public virtual void Draw()
         {
-            g.Clear(Color.White);
-            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
-            g.DrawLine(BLACK_PEN, 0, 0, w, 0);
-            g.DrawLine(BLACK_PEN, w, 0, w, h);
-            g.DrawLine(BLACK_PEN, 0, h, w, h);
+            DrawEmptyMaze();
 
             for (int j = 0; j< n; j++)
             {
                 for(int i = 0; i < n; i++)
                 {
-                    if(grid[j][i].val == 0)
-                    {
-                        grid[j][i].DrawCell();
-                    }
-                    else
-                    {
-                        grid[j][i].DrawCell(WHITE_BRUSH);
-                    }
+                    DrawDefaultCell(i, j);
 
                     CheckWall(i, j, N);
 
@@ -112,8 +96,7 @@ namespace MazeGenerator.core.maze.implementation
 
                     CheckWall(i, j, W);
                 }
-            }
-            Console.WriteLine("i paint maze base");
+            }           
         }
 
         public virtual void Animate()
@@ -154,7 +137,7 @@ namespace MazeGenerator.core.maze.implementation
                 case Maze.S:
                     return 1;
             }
-            // error condition, but should never reach here
+            
             return -1;
         }
 
@@ -175,21 +158,6 @@ namespace MazeGenerator.core.maze.implementation
             return -1;
         }
 
-        public void SetAnimating(bool isAnimating)
-        {
-            this.isAnimating = isAnimating;
-        }
-
-        public Cell[][] GetGrid()
-        {
-            return (Cell[][]) grid.Clone();
-        }
-
-        public void SetGrid(Cell[][] grid)
-        {
-            this.grid = grid;
-        }
-
         protected void CheckWall(int i, int j, int DIRECTION)
         {
             if ((grid[j][i].val & DIRECTION) != 0)
@@ -199,6 +167,27 @@ namespace MazeGenerator.core.maze.implementation
             else
             {
                 grid[j][i].DrawWall(DIRECTION, BLACK_PEN);
+            }
+        }
+
+        protected void DrawEmptyMaze()
+        {
+            g.Clear(Color.White);
+            g.DrawLine(BLACK_PEN, 0, 0, 0, h);
+            g.DrawLine(BLACK_PEN, 0, 0, w, 0);
+            g.DrawLine(BLACK_PEN, w, 0, w, h);
+            g.DrawLine(BLACK_PEN, 0, h, w, h);
+        }
+
+        protected void DrawDefaultCell(int i, int j)
+        {
+            if (grid[j][i].val == 0)
+            {
+                grid[j][i].DrawCell();
+            }
+            else
+            {
+                grid[j][i].DrawCell(WHITE_BRUSH);
             }
         }
 
