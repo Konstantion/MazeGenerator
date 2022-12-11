@@ -12,6 +12,8 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
         private List<List<Tree>> sets;
         private Stack<Edge> edges;
 
+        private int wallsToBreak = 0;
+
         public Kruskal(int n, int w, int h, Graphics g) : base(n, w, h ,g)
         {    
             Initialize();
@@ -76,12 +78,16 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                 grid[y][x].val |= SELECTED;
                 grid[dy][dx].val |= SELECTED;
             }
+            else if (wallsToBreak > 0)
+            {
+                BreakWall();
+            }            
             else
             {
                 isFinished = true;
             }
         }
-
+        
         private void CarvePassages()
         {
             while (edges.Count > 0)
@@ -105,8 +111,42 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                     grid[y][x].val |= direction;                    
                     grid[dy][dx].val |= Maze.OPPOSITE(direction);                    
                 }
-            } 
-            isFinished = true;            
+            }
+
+            while (wallsToBreak > 0)
+            {
+                BreakWall();
+            }
+
+            isFinished = true;                    
+        }
+
+        private void BreakWall()
+        {
+            int x = random.Next(n);
+            int y = random.Next(n);
+
+            int direction = GetRandomDirection();
+
+            int dx = x + Maze.DX(direction);
+            int dy = y + Maze.DY(direction);
+
+            if (CheckIfWallCanBeDestroyed(x, y, direction))
+            {
+                grid[y][x].val |= direction;
+                grid[dy][dx].val |= Maze.OPPOSITE(direction);
+                wallsToBreak--;
+            }
+        }
+
+        private bool CheckIfWallCanBeDestroyed(int x, int y, int DIRECTION)
+        {
+            if ((x == 0 && DIRECTION == W)
+             || (x == n - 1 && DIRECTION == E)
+             || (y == 0 && DIRECTION == N)
+             || (y == n - 1 && DIRECTION == S)) return false;
+
+            return (grid[y][x].val & DIRECTION) == 0;
         }
 
         public override void Animate()
@@ -166,6 +206,11 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             stack.Clear();
             foreach (var value in values.OrderBy(x => random.Next()))
                 stack.Push(value);
+        }
+
+        public void SetWallsToBreak(int wallsCount)
+        {
+            this.wallsToBreak = wallsCount;
         }
     }
 }

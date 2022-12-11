@@ -50,12 +50,19 @@ namespace MazeGenerator
             this.ButtonNextStep = new System.Windows.Forms.Button();
             this.buttonBFS = new System.Windows.Forms.Button();
             this.trackBarSpeed = new System.Windows.Forms.TrackBar();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labelIsRunning = new System.Windows.Forms.Label();
+            this.numericUpDownWalls = new System.Windows.Forms.NumericUpDown();
+            this.labelWalls = new System.Windows.Forms.Label();
+            this.labelWallInfo = new System.Windows.Forms.Label();
+            this.labelName = new System.Windows.Forms.Label();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.richTextBoxName = new System.Windows.Forms.RichTextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMazeSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMaze)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWalls)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -86,6 +93,12 @@ namespace MazeGenerator
             this.tableLayoutPanel1.Controls.Add(this.buttonBFS, 5, 1);
             this.tableLayoutPanel1.Controls.Add(this.trackBarSpeed, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelIsRunning, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.numericUpDownWalls, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.labelWalls, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelWallInfo, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.labelName, 3, 2);
+            this.tableLayoutPanel1.Controls.Add(this.richTextBoxName, 4, 2);
+            this.tableLayoutPanel1.Controls.Add(this.buttonSave, 5, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1, -3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 9;
@@ -288,11 +301,6 @@ namespace MazeGenerator
             this.trackBarSpeed.Value = 1;
             this.trackBarSpeed.Scroll += new System.EventHandler(this.trackBarSpeed_Scroll);
             // 
-            // timer1
-            // 
-            this.timer1.Interval = 2000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // labelIsRunning
             // 
             this.labelIsRunning.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -307,6 +315,94 @@ namespace MazeGenerator
             this.labelIsRunning.Text = "Execution is stoped";
             this.labelIsRunning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // numericUpDownWalls
+            // 
+            this.numericUpDownWalls.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericUpDownWalls.AutoSize = true;
+            this.numericUpDownWalls.Location = new System.Drawing.Point(3, 165);
+            this.numericUpDownWalls.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDownWalls.Name = "numericUpDownWalls";
+            this.numericUpDownWalls.Size = new System.Drawing.Size(194, 20);
+            this.numericUpDownWalls.TabIndex = 3;
+            this.numericUpDownWalls.ValueChanged += new System.EventHandler(this.numericUpDownMazeSize_ValueChanged);
+            // 
+            // labelWalls
+            // 
+            this.labelWalls.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelWalls.AutoSize = true;
+            this.labelWalls.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelWalls.Location = new System.Drawing.Point(3, 100);
+            this.labelWalls.Name = "labelWalls";
+            this.labelWalls.Size = new System.Drawing.Size(194, 50);
+            this.labelWalls.TabIndex = 2;
+            this.labelWalls.Text = "Delete walls";
+            this.labelWalls.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelWallInfo
+            // 
+            this.labelWallInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelWallInfo.AutoSize = true;
+            this.labelWallInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelWallInfo.Location = new System.Drawing.Point(3, 400);
+            this.labelWallInfo.Name = "labelWallInfo";
+            this.labelWallInfo.Size = new System.Drawing.Size(194, 200);
+            this.labelWallInfo.TabIndex = 10;
+            this.labelWallInfo.Text = "Walls will be deleted:\r\n0\r\n";
+            this.labelWallInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelName
+            // 
+            this.labelName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelName.AutoSize = true;
+            this.labelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelName.Location = new System.Drawing.Point(603, 100);
+            this.labelName.Name = "labelName";
+            this.labelName.Size = new System.Drawing.Size(194, 50);
+            this.labelName.TabIndex = 5;
+            this.labelName.Text = "Input name for saving";
+            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonSave.Location = new System.Drawing.Point(1003, 103);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(194, 44);
+            this.buttonSave.TabIndex = 8;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // richTextBoxName
+            // 
+            this.richTextBoxName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.richTextBoxName.Location = new System.Drawing.Point(803, 103);
+            this.richTextBoxName.Name = "richTextBoxName";
+            this.richTextBoxName.Size = new System.Drawing.Size(194, 44);
+            this.richTextBoxName.TabIndex = 12;
+            this.richTextBoxName.Text = "Лабіринт";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 2000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -320,6 +416,7 @@ namespace MazeGenerator
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMazeSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMaze)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWalls)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -342,6 +439,12 @@ namespace MazeGenerator
         private System.Windows.Forms.Button buttonBFS;
         private System.Windows.Forms.TrackBar trackBarSpeed;
         private System.Windows.Forms.Label labelIsRunning;
+        private System.Windows.Forms.NumericUpDown numericUpDownWalls;
+        private System.Windows.Forms.Label labelWalls;
+        private System.Windows.Forms.Label labelWallInfo;
+        private System.Windows.Forms.Label labelName;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.RichTextBox richTextBoxName;
     }
 }
 

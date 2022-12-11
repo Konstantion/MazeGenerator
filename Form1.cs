@@ -79,9 +79,21 @@ namespace MazeGenerator
             pictureBoxMaze.Image = bitmap;
 
             int n = (int)numericUpDownMazeSize.Value;
-            maze = new Kruskal(n, pictureBoxMaze.Width, pictureBoxMaze.Height, g);
+            int walls = (int)numericUpDownWalls.Value;
+
+            labelWallInfo.Text = "Walls will be deleted\n" + walls;
+
+            Kruskal kruskal = new Kruskal(n, pictureBoxMaze.Width, pictureBoxMaze.Height, g);
+            kruskal.SetWallsToBreak(walls);
+
+            maze = kruskal;
 
             maze.Draw();
+        }
+
+        private void numericUpDownWalls_ValueChanged(object sender, EventArgs e)
+        {
+            initMaze();
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
@@ -152,6 +164,15 @@ namespace MazeGenerator
             int fps = (int)trackBarSpeed.Value;
             int interval = 1000 / fps;
             timer1.Interval = interval;
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            if(maze.isFinished)
+            {
+                String name = richTextBoxName.Text;
+                maze.SaveMaze(name);
+            }
         }
     }
 }

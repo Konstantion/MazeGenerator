@@ -41,7 +41,7 @@ namespace MazeGenerator.core.maze.implementation.BFS
             start = new BFSPoint(0, 0);
             end = new BFSPoint(n - 1, n - 1);
 
-            grid[start.y][start.x].val |= START;
+            grid[start.y][start.x].val |= START;            
             grid[end.y][end.x].val |= END;
 
             bfsQueue = new Queue<Cell>();      
@@ -95,7 +95,7 @@ namespace MazeGenerator.core.maze.implementation.BFS
             {
                 pathTree[cell.Y][cell.X].SetPerent(pathTree[current.Y][current.X]);
 
-                if ((cell.val & VISITED) == 0)
+                if ((cell.val & ENQUEUED) == 0)
                 {
                     bfsQueue.Enqueue(cell);
                     cell.val |= ENQUEUED;
@@ -168,13 +168,13 @@ namespace MazeGenerator.core.maze.implementation.BFS
 
                 if (!PointCanBeMarked(new_start)) return;                
 
-                grid[start.y][start.x].val -= START;                            
+                grid[start.y][start.x].val -= START;
+               
 
                 ClearCellFromBFSStatuses(new_start.x, new_start.y);
 
-                grid[new_start.y][new_start.x].val |= START;
+                grid[new_start.y][new_start.x].val |= START;             
 
-                
 
                 start = new_start;
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Text;
 using static MazeGenerator.core.maze.DrawingTools;
 
 namespace MazeGenerator.core.maze.implementation
@@ -10,24 +12,27 @@ namespace MazeGenerator.core.maze.implementation
         public const int S = 2;
         public const int E = 4;
         public const int W = 8;
-        
-       
+
+
         protected Random random;
         protected int seed;
         protected int n;
         protected int w = 0;
         protected int h = 0;
         protected Cell[][] grid;
-        
+
 
         protected Graphics g;
         protected bool isAnimating = true;
         public bool isFinished = false;
-    
+
+        private const String DEFAULT_NAME = "maze";
+        private const String SAVE_FOLDER = "\\maze saves\\";
+
         protected Maze(Maze maze)
         {
             this.g = maze.g;
-            this.grid = (Cell[][]) maze.grid.Clone();
+            this.grid = (Cell[][])maze.grid.Clone();
             this.n = maze.n;
             this.w = maze.w;
             this.h = maze.h;
@@ -39,7 +44,7 @@ namespace MazeGenerator.core.maze.implementation
             this.g = g;
 
             this.n = n;
-           
+
             random = new Random();
 
             Initialize(w, h);
@@ -70,10 +75,10 @@ namespace MazeGenerator.core.maze.implementation
                 grid[j] = new Cell[n];
                 float y = j * cellSize;
 
-                for (int i = 0; i< n; i++)
+                for (int i = 0; i < n; i++)
                 {
                     float x = i * cellSize;
-                    grid[j][i] = new Cell(cellSize, x, y, g, 0, i , j);
+                    grid[j][i] = new Cell(cellSize, x, y, g, 0, i, j);
                 }
             }
         }
@@ -82,9 +87,9 @@ namespace MazeGenerator.core.maze.implementation
         {
             DrawEmptyMaze();
 
-            for (int j = 0; j< n; j++)
+            for (int j = 0; j < n; j++)
             {
-                for(int i = 0; i < n; i++)
+                for (int i = 0; i < n; i++)
                 {
                     DrawDefaultCell(i, j);
 
@@ -96,7 +101,7 @@ namespace MazeGenerator.core.maze.implementation
 
                     CheckWall(i, j, W);
                 }
-            }           
+            }
         }
 
         public virtual void Animate()
@@ -121,7 +126,7 @@ namespace MazeGenerator.core.maze.implementation
                 case Maze.S:
                     return 0;
             }
-           
+
             return -1;
         }
 
@@ -137,7 +142,7 @@ namespace MazeGenerator.core.maze.implementation
                 case Maze.S:
                     return 1;
             }
-            
+
             return -1;
         }
 
@@ -154,7 +159,7 @@ namespace MazeGenerator.core.maze.implementation
                 case Maze.S:
                     return Maze.N;
             }
-            
+
             return -1;
         }
 
@@ -191,6 +196,67 @@ namespace MazeGenerator.core.maze.implementation
             }
         }
 
-        
+        protected int GetRandomDirection()
+        {
+            int[] directions = new int[4] { N, S, E, W };
+
+            return directions[random.Next(directions.Length)];
+        }
+
+        public void SaveMaze(String name)
+        {
+            String maze = BuildMazeString();
+
+            if(String.IsNullOrEmpty(name))
+            {
+                SaveMazeToFile(DEFAULT_NAME, maze);
+            }
+            else
+            {
+                SaveMazeToFile(name, maze);
+            }
+        }      
+
+        private void SaveMazeToFile(String name, String maze)
+        {            
+            string path = Directory.GetParent(Environment.CurrentDirectory)
+                .Parent                
+                .FullName +
+                SAVE_FOLDER +
+                name + ".txt";
+
+            if (!File.Exists(path))
+            {
+                File.WriteAllText(path, maze);
+            }
+            else
+            {
+                SaveMazeToFile(name + "-new", maze);
+            }
+        }
+
+        private String BuildMazeString()
+        {
+            StringBuilder mazeBuilder = new StringBuilder();
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    int val = GetCellValue(grid[i][j]);
+                    mazeBuilder.Append(val + " ");
+                }
+                mazeBuilder.Append("\n");
+            }
+
+            return mazeBuilder.ToString();
+        }
+
+        private int GetCellValue(Cell cell)
+        {
+            return cell.val & (N + E + W + S);
+        }
+
+
     }
 }
