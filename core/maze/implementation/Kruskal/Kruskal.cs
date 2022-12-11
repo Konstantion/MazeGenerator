@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using static MazeGenerator.core.maze.DrawingTools;
 
@@ -22,6 +23,11 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
         public Kruskal(int n, int w, int h, Graphics g, int seed) : base(n, w, h, g, seed)
         {
             Initialize();
+        }
+
+        public Kruskal(string path, int w, int h, Graphics g) : base(path, w, h, g)
+        {
+            
         }
 
         private void Initialize()
@@ -206,7 +212,7 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             stack.Clear();
             foreach (var value in values.OrderBy(x => random.Next()))
                 stack.Push(value);
-        }
+        }        
 
         public void SetWallsToBreak(int wallsCount)
         {

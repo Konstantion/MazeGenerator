@@ -28,6 +28,10 @@ namespace MazeGenerator.core.maze.implementation
 
         private const String DEFAULT_NAME = "maze";
         private const String SAVE_FOLDER = "\\maze saves\\";
+        public static readonly String SAVE_DIRECTORY = Directory.GetParent(Environment.CurrentDirectory)
+                .Parent
+                .FullName +
+                SAVE_FOLDER;
 
         protected Maze(Maze maze)
         {
@@ -59,6 +63,13 @@ namespace MazeGenerator.core.maze.implementation
             random = new Random(seed);
 
             Initialize(w, h);
+        }
+
+        public Maze(string path, int w, int h, Graphics g)
+        {
+            this.g = g;
+
+            InitMazeFromPath(path, w, h);
         }
 
         private void Initialize(int w, int h)
@@ -219,10 +230,7 @@ namespace MazeGenerator.core.maze.implementation
 
         private void SaveMazeToFile(String name, String maze)
         {            
-            string path = Directory.GetParent(Environment.CurrentDirectory)
-                .Parent                
-                .FullName +
-                SAVE_FOLDER +
+            string path = SAVE_DIRECTORY +
                 name + ".txt";
 
             if (!File.Exists(path))
@@ -250,6 +258,29 @@ namespace MazeGenerator.core.maze.implementation
             }
 
             return mazeBuilder.ToString();
+        }
+
+        protected virtual void InitMazeFromPath(string path, int w, int h)
+        {
+            string[] mazeStrings = File.ReadAllLines(path);
+
+            this.n = mazeStrings[0].Trim().Split(' ').Length;
+
+            Initialize(w, h);
+
+            for(int i = 0; i < n; i++)
+            {
+                int[] values = Array.ConvertAll(mazeStrings[i].Trim().Split(' '), Convert.ToInt32);
+                for(int j = 0; j < n; j++)
+                {
+                    grid[i][j].val = values[j];
+                }
+            }
+
+            isFinished = true;
+            isAnimating = false;
+
+            Draw();
         }
 
         private int GetCellValue(Cell cell)

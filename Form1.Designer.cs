@@ -55,8 +55,11 @@ namespace MazeGenerator
             this.labelWalls = new System.Windows.Forms.Label();
             this.labelWallInfo = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.richTextBoxName = new System.Windows.Forms.RichTextBox();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.labelOpen = new System.Windows.Forms.Label();
+            this.buttonOpen = new System.Windows.Forms.Button();
+            this.comboBoxOpen = new System.Windows.Forms.ComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMazeSize)).BeginInit();
@@ -99,6 +102,9 @@ namespace MazeGenerator
             this.tableLayoutPanel1.Controls.Add(this.labelName, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.richTextBoxName, 4, 2);
             this.tableLayoutPanel1.Controls.Add(this.buttonSave, 5, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelOpen, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.buttonOpen, 5, 3);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxOpen, 4, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1, -3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 9;
@@ -321,7 +327,7 @@ namespace MazeGenerator
             this.numericUpDownWalls.AutoSize = true;
             this.numericUpDownWalls.Location = new System.Drawing.Point(3, 165);
             this.numericUpDownWalls.Maximum = new decimal(new int[] {
-            500,
+            81,
             0,
             0,
             0});
@@ -372,6 +378,18 @@ namespace MazeGenerator
             this.labelName.Text = "Input name for saving";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // richTextBoxName
+            // 
+            this.richTextBoxName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.richTextBoxName.Location = new System.Drawing.Point(803, 103);
+            this.richTextBoxName.Name = "richTextBoxName";
+            this.richTextBoxName.Size = new System.Drawing.Size(194, 44);
+            this.richTextBoxName.TabIndex = 12;
+            this.richTextBoxName.Text = "Лабіринт";
+            // 
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -386,17 +404,47 @@ namespace MazeGenerator
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // richTextBoxName
+            // labelOpen
             // 
-            this.richTextBoxName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.labelOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.richTextBoxName.Location = new System.Drawing.Point(803, 103);
-            this.richTextBoxName.Name = "richTextBoxName";
-            this.richTextBoxName.Size = new System.Drawing.Size(194, 44);
-            this.richTextBoxName.TabIndex = 12;
-            this.richTextBoxName.Text = "Лабіринт";
+            this.labelOpen.AutoSize = true;
+            this.labelOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelOpen.Location = new System.Drawing.Point(603, 150);
+            this.labelOpen.Name = "labelOpen";
+            this.labelOpen.Size = new System.Drawing.Size(194, 50);
+            this.labelOpen.TabIndex = 5;
+            this.labelOpen.Text = "Choose file to open";
+            this.labelOpen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buttonOpen
+            // 
+            this.buttonOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonOpen.Location = new System.Drawing.Point(1003, 153);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(194, 44);
+            this.buttonOpen.TabIndex = 8;
+            this.buttonOpen.Text = "Open";
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            // 
+            // comboBoxOpen
+            // 
+            this.comboBoxOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxOpen.DisplayMember = "Name";
+            this.comboBoxOpen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxOpen.FormattingEnabled = true;
+            this.comboBoxOpen.Location = new System.Drawing.Point(803, 161);
+            this.comboBoxOpen.Name = "comboBoxOpen";
+            this.comboBoxOpen.Size = new System.Drawing.Size(194, 28);
+            this.comboBoxOpen.TabIndex = 1;
+            this.comboBoxOpen.ValueMember = "Id";
+            this.comboBoxOpen.SelectedIndexChanged += new System.EventHandler(this.comboBoxAlgorithm_SelectedIndexChanged);
             // 
             // timer1
             // 
@@ -445,6 +493,9 @@ namespace MazeGenerator
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.RichTextBox richTextBoxName;
+        private System.Windows.Forms.Label labelOpen;
+        private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.ComboBox comboBoxOpen;
     }
 }
 

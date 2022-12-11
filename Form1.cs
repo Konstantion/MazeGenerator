@@ -5,6 +5,7 @@ using MazeGenerator.core.maze.implementation;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 namespace MazeGenerator
 {
@@ -15,36 +16,55 @@ namespace MazeGenerator
         Bitmap bitmap;
 
         private bool IsOnBFSMode;
-        private Maze maze;        
-
-        Random random;
+        private Maze maze; 
         public Form1()
         {            
             InitializeComponent();
             SetAlgorithmComboBoxData();
+            SetOpenFileComboBoxData();
 
             bitmap = new Bitmap(pictureBoxMaze.Width, pictureBoxMaze.Height);
             g = Graphics.FromImage(bitmap);
 
-            IsOnBFSMode = false;
-
-            random = new Random();
+            IsOnBFSMode = false;           
 
             initMaze();
         }
+
+        private void SetOpenFileComboBoxData()
+        {
+            string[] files = Directory.GetFiles(Maze.SAVE_DIRECTORY);
+
+            ComboItem[] items = new ComboItem[files.Length];
+
+            for(int i = 0; i < files.Length; i++)
+            {
+                items[i] = new ComboItem(files[i].Substring(Maze.SAVE_DIRECTORY.Length), files[i]);
+            }
+
+            comboBoxOpen.DataSource = items;
+
+            comboBoxAlgorithm.DisplayMember = "Name";
+            comboBoxAlgorithm.ValueMember = "Id";
+        }
+
         private void SetAlgorithmComboBoxData()
         {
-            this.comboBoxAlgorithm.DataSource = new AlgorithmComboItem[]
+           comboBoxAlgorithm.DataSource = new ComboItem[]
            {
-                new AlgorithmComboItem("Kruskal's Algorithm",1),
-                new AlgorithmComboItem("Prim's Algorithm",2)
+                new ComboItem("Kruskal's Algorithm","1"),
+                new ComboItem("Prim's Algorithm","2")
            };
-            this.comboBoxAlgorithm.DisplayMember = "Name";
-            this.comboBoxAlgorithm.ValueMember = "Id";
+           comboBoxAlgorithm.DisplayMember = "Name";
+            comboBoxAlgorithm.ValueMember = "Id";
         }        
 
         private void numericUpDownMazeSize_ValueChanged(object sender, EventArgs e)
         {
+            int n = (int)numericUpDownMazeSize.Value - 1;
+
+            numericUpDownWalls.Maximum = n * n;
+
             initMaze();
         }
 
@@ -61,9 +81,7 @@ namespace MazeGenerator
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            timer1.Start();
-            labelIsRunning.Text = "Execution is running";
-            Console.WriteLine($"Timer start with interval {timer1.Interval}");
+            timer1.Start();            
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -89,6 +107,8 @@ namespace MazeGenerator
             maze = kruskal;
 
             maze.Draw();
+
+            buttonStop.PerformClick();
         }
 
         private void numericUpDownWalls_ValueChanged(object sender, EventArgs e)
@@ -111,10 +131,10 @@ namespace MazeGenerator
         private void buttonFinish_Click(object sender, EventArgs e)
         {
             pictureBoxMaze.Image = bitmap;
-            timer1.Stop();
+            
             maze.Finish();
 
-            labelIsRunning.Text = "Execution is stoped";
+            buttonStop.PerformClick();
         }
 
         private void pictureBoxMaze_Click(object sender, EventArgs e)
@@ -155,15 +175,18 @@ namespace MazeGenerator
                 IsOnBFSMode = true;
                 pictureBoxMaze.Image = bitmap;
                 maze = new BFS(maze);
-                maze.Draw();                
+                maze.Draw();
+
+                buttonStop.PerformClick();
             }
         }
 
         private void trackBarSpeed_Scroll(object sender, EventArgs e)
         {
-            int fps = (int)trackBarSpeed.Value;
-            int interval = 1000 / fps;
+            int speed = (int)trackBarSpeed.Value;
+            int interval = 1000 / speed;
             timer1.Interval = interval;
+            labelIsRunning.Text = "Execution is running with interval\n" + timer1.Interval + "m";
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -172,7 +195,18 @@ namespace MazeGenerator
             {
                 String name = richTextBoxName.Text;
                 maze.SaveMaze(name);
-            }
+                SetOpenFileComboBoxData();
+            }            
+        }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            pictureBoxMaze.Image = bitmap;
+
+            IsOnBFSMode = false;           
+            string path = comboBoxOpen.SelectedValue.ToString();
+
+            maze = new Maze(path, pictureBoxMaze.Width, pictureBoxMaze.Height, g);
         }
     }
 }
