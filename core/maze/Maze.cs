@@ -25,6 +25,7 @@ namespace MazeGenerator.core.maze.implementation
         protected Graphics g;
         protected bool isAnimating = true;
         public bool isFinished = false;
+        public bool IsOnBFSMode = false;  
 
         private const String DEFAULT_NAME = "maze";
         private const String SAVE_FOLDER = "\\maze saves\\";
@@ -245,7 +246,7 @@ namespace MazeGenerator.core.maze.implementation
 
         private String BuildMazeString()
         {
-            StringBuilder mazeBuilder = new StringBuilder();
+            StringBuilder mazeBuilder = new StringBuilder();                       
 
             for (int i = 0; i < n; i++)
             {
@@ -253,6 +254,34 @@ namespace MazeGenerator.core.maze.implementation
                 {
                     int val = GetCellValue(grid[i][j]);
                     mazeBuilder.Append(val + " ");
+                    
+                }
+                mazeBuilder.Append("\n");
+            }
+            
+            mazeBuilder.Append(" ");
+            for (int i = 0; i < (n * 2 - 1); ++i)
+            {
+                mazeBuilder.Append("_");
+            }
+            mazeBuilder.Append("\n");
+
+
+            for (int j = 0; j < n; ++j)
+            {
+                mazeBuilder.Append("|");
+                for (int i = 0; i < n; ++i)
+                {
+                    mazeBuilder.Append((grid[j][i].val & Maze.S) != 0 ? " " : "_");
+
+                    if ((grid[j][i].val & Maze.E) != 0)
+                    {
+                        mazeBuilder.Append(((grid[j][i].val | grid[j][i + 1].val) & Maze.S) != 0 ? " " : "_");
+                    }
+                    else
+                    {
+                        mazeBuilder.Append("|");
+                    }
                 }
                 mazeBuilder.Append("\n");
             }

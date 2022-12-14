@@ -53,7 +53,6 @@ namespace MazeGenerator
             this.labelIsRunning = new System.Windows.Forms.Label();
             this.numericUpDownWalls = new System.Windows.Forms.NumericUpDown();
             this.labelWalls = new System.Windows.Forms.Label();
-            this.labelWallInfo = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
             this.richTextBoxName = new System.Windows.Forms.RichTextBox();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -98,7 +97,6 @@ namespace MazeGenerator
             this.tableLayoutPanel1.Controls.Add(this.labelIsRunning, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.numericUpDownWalls, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.labelWalls, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.labelWallInfo, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.labelName, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.richTextBoxName, 4, 2);
             this.tableLayoutPanel1.Controls.Add(this.buttonSave, 5, 2);
@@ -350,20 +348,6 @@ namespace MazeGenerator
             this.labelWalls.Text = "Delete walls";
             this.labelWalls.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labelWallInfo
-            // 
-            this.labelWallInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelWallInfo.AutoSize = true;
-            this.labelWallInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelWallInfo.Location = new System.Drawing.Point(3, 400);
-            this.labelWallInfo.Name = "labelWallInfo";
-            this.labelWallInfo.Size = new System.Drawing.Size(194, 200);
-            this.labelWallInfo.TabIndex = 10;
-            this.labelWallInfo.Text = "Walls will be deleted:\r\n0\r\n";
-            this.labelWallInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // labelName
             // 
             this.labelName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -448,7 +432,7 @@ namespace MazeGenerator
             // 
             // timer1
             // 
-            this.timer1.Interval = 2000;
+            this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
@@ -489,7 +473,6 @@ namespace MazeGenerator
         private System.Windows.Forms.Label labelIsRunning;
         private System.Windows.Forms.NumericUpDown numericUpDownWalls;
         private System.Windows.Forms.Label labelWalls;
-        private System.Windows.Forms.Label labelWallInfo;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.RichTextBox richTextBoxName;

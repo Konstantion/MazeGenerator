@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using MazeGenerator.core.maze;
 
 namespace MazeGenerator
 {
@@ -14,8 +15,7 @@ namespace MazeGenerator
     {
         Graphics g;
         Bitmap bitmap;
-
-        private bool IsOnBFSMode;
+        
         private Maze maze; 
         public Form1()
         {            
@@ -25,8 +25,6 @@ namespace MazeGenerator
 
             bitmap = new Bitmap(pictureBoxMaze.Width, pictureBoxMaze.Height);
             g = Graphics.FromImage(bitmap);
-
-            IsOnBFSMode = false;           
 
             initMaze();
         }
@@ -53,7 +51,7 @@ namespace MazeGenerator
            comboBoxAlgorithm.DataSource = new ComboItem[]
            {
                 new ComboItem("Kruskal's Algorithm","1"),
-                new ComboItem("Prim's Algorithm","2")
+                //new ComboItem("Prim's Algorithm","2")
            };
            comboBoxAlgorithm.DisplayMember = "Name";
             comboBoxAlgorithm.ValueMember = "Id";
@@ -74,14 +72,15 @@ namespace MazeGenerator
         }
 
         private void timer1_Tick(object sender, EventArgs e)
-        {
+        {     
             pictureBoxMaze.Image = bitmap;
-            maze.Animate();            
+            maze.Animate();               
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            timer1.Start();            
+            timer1.Start();           
+            labelIsRunning.Text = "Execution is running with interval\n" + timer1.Interval + "m";
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -91,15 +90,12 @@ namespace MazeGenerator
         }        
 
         private void initMaze()
-        {
-            IsOnBFSMode = false;
-
+        {  
             pictureBoxMaze.Image = bitmap;
 
             int n = (int)numericUpDownMazeSize.Value;
             int walls = (int)numericUpDownWalls.Value;
-
-            labelWallInfo.Text = "Walls will be deleted\n" + walls;
+            
 
             Kruskal kruskal = new Kruskal(n, pictureBoxMaze.Width, pictureBoxMaze.Height, g);
             kruskal.SetWallsToBreak(walls);
@@ -117,8 +113,7 @@ namespace MazeGenerator
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
-        {
-            IsOnBFSMode = false;
+        {           
             initMaze();
         }
 
@@ -170,13 +165,14 @@ namespace MazeGenerator
 
         private void buttonBFS_Click(object sender, EventArgs e)
         {
-            if (maze.isFinished && !IsOnBFSMode)
-            {
-                IsOnBFSMode = true;
+            if (maze.isFinished && !maze.IsOnBFSMode)
+            {                
                 pictureBoxMaze.Image = bitmap;
-                maze = new BFS(maze);
-                maze.Draw();
 
+                maze = new BFS(maze);
+                maze.IsOnBFSMode = true;
+
+                maze.Draw();
                 buttonStop.PerformClick();
             }
         }
@@ -186,7 +182,10 @@ namespace MazeGenerator
             int speed = (int)trackBarSpeed.Value;
             int interval = 1000 / speed;
             timer1.Interval = interval;
-            labelIsRunning.Text = "Execution is running with interval\n" + timer1.Interval + "m";
+            if(timer1.Enabled)
+            {
+                labelIsRunning.Text = "Execution is running with interval\n" + timer1.Interval + "m";
+            }
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -203,10 +202,12 @@ namespace MazeGenerator
         {
             pictureBoxMaze.Image = bitmap;
 
-            IsOnBFSMode = false;           
+            maze.IsOnBFSMode = false;           
             string path = comboBoxOpen.SelectedValue.ToString();
 
             maze = new Maze(path, pictureBoxMaze.Width, pictureBoxMaze.Height, g);
+
+            buttonStop.PerformClick();
         }
     }
 }

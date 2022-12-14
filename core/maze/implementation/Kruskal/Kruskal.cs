@@ -76,13 +76,12 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                 {
                     set1.Connect(set2);
 
-
                     grid[y][x].val |= direction;                    
-                    grid[dy][dx].val |= Maze.OPPOSITE(direction);                                     
-                }
+                    grid[dy][dx].val |= Maze.OPPOSITE(direction);
 
-                grid[y][x].val |= SELECTED;
-                grid[dy][dx].val |= SELECTED;
+                    grid[y][x].val |= SELECTED;
+                    grid[dy][dx].val |= SELECTED;
+                }               
             }
             else if (wallsToBreak > 0)
             {
