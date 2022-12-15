@@ -197,7 +197,6 @@ namespace MazeGenerator
             // pictureBoxMaze
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.pictureBoxMaze, 4);
-            this.pictureBoxMaze.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxMaze.Image")));
             this.pictureBoxMaze.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBoxMaze.InitialImage")));
             this.pictureBoxMaze.Location = new System.Drawing.Point(203, 203);
             this.pictureBoxMaze.Name = "pictureBoxMaze";
