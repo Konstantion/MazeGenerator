@@ -2,8 +2,7 @@
 
 namespace MazeGenerator.core.maze
 {
-
-    static class DrawingTools
+    class DrawingTools
     {
         public static readonly int CELL_BORDER = 2;
         public static readonly int CELL_INDENT = CELL_BORDER / 2;
@@ -19,7 +18,5 @@ namespace MazeGenerator.core.maze
         public static readonly SolidBrush DARK_BLUE_BRUSH = new SolidBrush(Color.DarkBlue);
         public static readonly SolidBrush GREEN_BRUSH = new SolidBrush(Color.Green);
         public static readonly SolidBrush AQUAMARINE_BRUSH = new SolidBrush(Color.Aquamarine);
-
-
     }
 }

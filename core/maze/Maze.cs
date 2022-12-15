@@ -44,6 +44,7 @@ namespace MazeGenerator.core.maze.implementation
             this.random = maze.random;
             this.isFinished = maze.isFinished;
         }
+
         public Maze(int n, int w, int h, Graphics g)
         {
             this.g = g;
@@ -138,7 +139,6 @@ namespace MazeGenerator.core.maze.implementation
                 case Maze.S:
                     return 0;
             }
-
             return -1;
         }
 
@@ -229,10 +229,11 @@ namespace MazeGenerator.core.maze.implementation
             }
         }      
 
-        private void SaveMazeToFile(String name, String maze)
-        {            
+        private void SaveMazeToFile(String name, String maze, int i = 0)
+        {
+            string tempName = i == 0 ? name + ".txt" : $"{name}({i})" + ".txt";
             string path = SAVE_DIRECTORY +
-                name + ".txt";
+                tempName;
 
             if (!File.Exists(path))
             {
@@ -240,7 +241,7 @@ namespace MazeGenerator.core.maze.implementation
             }
             else
             {
-                SaveMazeToFile(name + "-new", maze);
+                SaveMazeToFile(name, maze, ++i);
             }
         }
 

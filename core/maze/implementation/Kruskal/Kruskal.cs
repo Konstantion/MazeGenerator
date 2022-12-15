@@ -52,7 +52,6 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                     if (x > 0) { edges.Push(new Edge(x, y, Maze.W)); }
                 }
             }
-
             Shuffle(edges);            
         }
 
@@ -76,9 +75,11 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
                 {
                     set1.Connect(set2);
 
+                    //Destroy wall
                     grid[y][x].val |= direction;                    
                     grid[dy][dx].val |= Maze.OPPOSITE(direction);
 
+                    //Color cells for visualisation
                     grid[y][x].val |= SELECTED;
                     grid[dy][dx].val |= SELECTED;
                 }               
@@ -160,6 +161,11 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             Draw();
         }
 
+        public override void Finish()
+        {
+            CarvePassages();
+            Draw();
+        }
         public override void Draw()
         {
             DrawEmptyMaze();
@@ -181,6 +187,7 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             }            
         }
 
+        
         private void DrawKruskalCell(int i, int j)
         {
             if (grid[j][i].val == 0)
@@ -199,11 +206,7 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
             }
         }
 
-        public override void Finish()
-        {
-            CarvePassages();
-            Draw();
-        }
+        
 
         public void Shuffle(Stack<Edge> stack)
         {

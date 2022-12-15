@@ -99,6 +99,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="core\diagram\ClassDiagram1.cd" />
+    <None Include="core\diagram\ClassDiagram2.cd" />
     <None Include="Properties\DataSources\Form1.datasource" />
     <None Include="Properties\DataSources\MazeGenerator.src.algorithms.comboBoxData.ComboBoxDataFabric.datasource" />
     <None Include="Properties\Settings.settings">
