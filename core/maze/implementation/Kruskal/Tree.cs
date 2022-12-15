@@ -13,28 +13,22 @@ namespace MazeGenerator.core.maze.implementation.Kruskal
 		public Tree()
 		{
 
-		}
-
-		
-		public Tree root()
+		}		
+		public Tree Root()
 		{
-			return parent != null ? parent.root() : this;
+			return parent != null ? parent.Root() : this;
 		}
-
 		
-		public bool connected(Tree tree)
+		public bool Connected(Tree tree)
 		{
-			return this.root() == tree.root();
+			return this.Root() == tree.Root();
 		}
-
 		
-		public void connect(Tree tree)
+		public void Connect(Tree tree)
 		{
-			tree.root().setParent(this);
-		}
-
-		
-		public void setParent(Tree parent)
+			tree.Root().SetPerent(this);
+		}		
+		public void SetPerent(Tree parent)
 		{
 			this.parent = parent;
 		}

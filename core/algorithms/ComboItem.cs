@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace MazeGenerator.core.algorithms
 {
-    class AlgorithmComboItem
+    class ComboItem
     {
         public string Name { get; set; }
-        public int Id { get; set; }
+        public string Id { get; set; }
 
-        public AlgorithmComboItem(string name, int id)
+        public ComboItem(string name, string id)
         {
             Name = name;
             Id = id;
